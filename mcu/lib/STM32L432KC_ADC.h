@@ -12,6 +12,8 @@
 // Function prototypes
 ///////////////////////////////////////////////////////////////////////////////
 
-void configureADC();
+void initADC(void);
+int calibrateADC(void);
+float readADC(void);
 
 #endif

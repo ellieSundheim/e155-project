@@ -1,33 +1,38 @@
-/*********************************************************************
-*                    SEGGER Microcontroller GmbH                     *
-*                        The Embedded Experts                        *
-**********************************************************************
+// main.c
+// Ellie Sundheim esundheim@hmc.edu and Daniel Fajardo dfajardo@hmc.edu
+// 10/24/24
 
--------------------------- END-OF-HEADER -----------------------------
 
-File    : main.c
-Purpose : Generic application start
+#include <stm32l432xx.h>
+#include "../lib/STM32L432KC.h"
 
-*/
+int main(void){
+  // config flash
+  configureFlash();
+  // config system clock
+  configureClock();
 
-#include <stdio.h>
+  // turn on peripheral clocks (GPIO, ADC, TIM SPI, ...)
+  gpioEnable(GPIO_PORT_A);
+  RCC->AHB2ENR |= RCC_AHB2ENR_ADCEN;
+  RCC->APB2ENR |= (RCC_APB2ENR_TIM15EN);
+  // SPI clock is in SPI init function
 
-/*********************************************************************
-*
-*       main()
-*
-*  Function description
-*   Application entry point.
-*/
-int main(void) {
-  int i;
+  // ADC1_IN10 is the additional function for PA5
+  pinMode(PA5, GPIO_ANALOG);
 
-  for (i = 0; i < 100; i++) {
-    printf("Hello World %d!\n", i);
-  }
-  do {
-    i++;
-  } while (1);
+  //init peripherals
+  initTIM(TIM15);
+  //initSPI(int br, int cpol, int cpha);
+  initADC();
+
+
+  volatile float adc_ch_5_voltage = 0;
+  while(1){
+    adc_ch_5_voltage = readADC();
+    printf("ADC Input 5: %f\n", adc_ch_5_voltage);
+
+  };
+
+
 }
-
-/*************************** End of file ****************************/
