@@ -20,17 +20,20 @@ int main(void){
 
   // ADC1_IN10 is the additional function for PA5
   pinMode(PA5, GPIO_ANALOG);
+  pinMode(PA6, GPIO_ANALOG);
 
   //init peripherals
   initTIM(TIM15);
   //initSPI(int br, int cpol, int cpha);
   initADC();
+  //configureADC();
 
 
   volatile float adc_ch_5_voltage = 0;
   while(1){
     adc_ch_5_voltage = readADC();
-    printf("ADC Input 5: %f\n", adc_ch_5_voltage);
+    //printf("ADC Input 5: %f\n", adc_ch_5_voltage);
+    printf("----------------------\n");
 
   };
 

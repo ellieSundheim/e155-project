@@ -2,6 +2,7 @@
 <session>
  <Bookmarks/>
  <Breakpoints groups="Breakpoints" active_group="Breakpoints">
+  <BreakpointListItem trigger="" line="27" counter="0" hardwareBreakpoint="" isFunctionBreakpoint="false" action="" expression="" stopAll="false" group="Breakpoints" type="Breakpoint" state="2" filename="../src/main.c" useHWbreakpoint="false"/>
   <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault"/>
  </Breakpoints>
  <ExecutionProfileWindow/>
@@ -26,7 +27,7 @@
   <ProjectSessionItem path="final_segger_project;final_segger_project;Source Files"/>
  </Project>
  <Register1>
-  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal;GPIOA/MODER;GPIOA/OTYPER;GPIOA/OSPEEDR;GPIOA/PUPDR;GPIOA/IDR;GPIOA/ODR;GPIOA/BSRR;GPIOA/LCKR;GPIOA/AFRL;GPIOA/AFRH;ADC1/ISR;ADC1/IER;ADC1/CR;ADC1/CFGR;ADC1/CFGR2;ADC1/SMPR1;ADC1/SMPR2;ADC1/TR1;ADC1/TR2;ADC1/TR3;ADC1/SQR1;ADC1/SQR2;ADC1/SQR3;ADC1/SQR4;ADC1/DR;ADC1/JSQR;ADC1/OFR1;ADC1/OFR2;ADC1/OFR3;ADC1/OFR4;ADC1/JDR1;ADC1/JDR2;ADC1/JDR3;ADC1/JDR4;ADC1/AWD2CR;ADC1/AWD3CR;ADC1/DIFSEL;ADC1/CALFACT;ADC123_Common/CSR;ADC123_Common/CCR;ADC123_Common/CDR" binaryNodes="" asciiNodes="" openNodes="GPIOA;ADC1;ADC123_Common" name="final_segger_project_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
+  <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal;GPIOA/MODER;GPIOA/OTYPER;GPIOA/OSPEEDR;GPIOA/PUPDR;GPIOA/IDR;GPIOA/ODR;GPIOA/BSRR;GPIOA/LCKR;GPIOA/AFRL;GPIOA/AFRH;ADC1/ISR;ADC1/IER;ADC1/CR;ADC1/CFGR;ADC1/CFGR2;ADC1/SMPR1;ADC1/SMPR2;ADC1/TR1;ADC1/TR2;ADC1/TR3;ADC1/SQR1;ADC1/SQR2;ADC1/SQR3;ADC1/SQR4;ADC1/DR;ADC1/JSQR;ADC1/OFR1;ADC1/OFR2;ADC1/OFR3;ADC1/OFR4;ADC1/JDR1;ADC1/JDR2;ADC1/JDR3;ADC1/JDR4;ADC1/AWD2CR;ADC1/AWD3CR;ADC1/DIFSEL;ADC1/CALFACT;ADC123_Common/CSR;ADC123_Common/CCR;ADC123_Common/CDR" binaryNodes="" asciiNodes="" openNodes="GPIOA/MODER;ADC1;ADC1/ISR;ADC1/CR;ADC1/SQR1;ADC1/CALFACT;ADC123_Common" name="final_segger_project_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
  </Register1>
  <Register2>
   <RegisterWindow visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/MSP;CPU/PSP;CPU/PRIMASK;CPU/BASEPRI;CPU/FAULTMASK;CPU/CONTROL;CPU/internal" binaryNodes="" asciiNodes="" openNodes="CPU - Current Context" name="final_segger_project_Debug" decimalNodes="" octalNodes="" unsignedNodes=""/>
@@ -55,6 +56,10 @@
  <Watch4>
   <Watches active="0" update="Never"/>
  </Watch4>
- <Files/>
- <EMStudioWindow activeProject="final_segger_project" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/Users/Ellie/Documents/E155/Lab_05_Sundheim/segger_project_fixed_cmsis" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <Files>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="30" useTextEdit="1" path="../src/main.c" left="0" selected="1" top="8" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="12" y="108" useTextEdit="1" path="../lib/STM32L432KC_ADC.c" left="0" top="89" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="17" y="91" useTextEdit="1" path="../lib/STM32L432KC_GPIO.c" left="0" top="70" codecName="Default"/>
+ </Files>
+ <EMStudioWindow activeProject="final_segger_project" fileDialogDefaultFilter="*" autoConnectTarget="J-Link" buildConfiguration="Debug" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/Users/Ellie/Documents/E155/Lab_05_Sundheim/segger_project_fixed_cmsis" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>

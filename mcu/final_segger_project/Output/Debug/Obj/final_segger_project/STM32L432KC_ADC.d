@@ -14,6 +14,7 @@ Output/Debug/Obj/final_segger_project/STM32L432KC_ADC.o: \
   C:\Users\Ellie\Documents\E155\final_project\mcu\final_segger_project\STM32L4xx\Device\Include\system_stm32l4xx.h \
   C:\Program\ Files\SEGGER\SEGGER\ Embedded\ Studio\ 8.16a\include\math.h \
   C:\Program\ Files\SEGGER\SEGGER\ Embedded\ Studio\ 8.16a\include\__SEGGER_RTL_FP.h \
+  C:\Program\ Files\SEGGER\SEGGER\ Embedded\ Studio\ 8.16a\include\stdio.h \
   C:\Users\Ellie\Documents\E155\final_project\mcu\lib\STM32L432KC_ADC.h \
   C:\Users\Ellie\Documents\E155\final_project\mcu\lib\STM32L432KC_TIM.h \
   C:\Users\Ellie\Documents\E155\final_project\mcu\lib\STM32L432KC_GPIO.h
