@@ -96,7 +96,7 @@ int calibrateADC(void){
 }
 
 
-float readADC(void){
+void readADC(float* playerData){
   // float is 32 bits so can store our 12 bit max res readings
 
   // start the conversion
@@ -104,25 +104,25 @@ float readADC(void){
 
   // wait for end of first conversion (EOC will be 1, cleared by software or reading ADC->DR)
   while ( !(ADC1->ISR & ADC_ISR_EOC) );
-  //delay_millis(TIM15, 100);
 
   // read first channel, clear the EOC bit and allows us to read next channel
   volatile float ch10 = ADC1->DR;
-  printf("ADC Input 10: %f\n", ch10);
-  //ADC1->ISR |= ADC_ISR_EOC;
-  
+  //printf("ADC Input 10: %f\n", ch10); 
+  playerData[0] = ch10; 
 
   // wait to read next
   while ( !(ADC1->ISR & ADC_ISR_EOC) );
   // read ch6
   volatile float ch11 = ADC1->DR;
-  printf("ADC Input 11: %f\n", ch11);
+  //printf("ADC Input 11: %f\n", ch11);
+  playerData[1] = ch11;
 
   // clear end of sequence bit
   ADC1->ISR |= ADC_ISR_EOS;
+
   volatile float ch_v = ch10 * 3.3 / pow(2, 12);
 
-  return ch_v;
+  //return nothing because pointer modifies in place
 
 }
 

@@ -25,5 +25,8 @@
 #define HSI_FREQ 16000000 // HSI clock is 16 MHz
 #define MSI_FREQ 4000000  // HSI clock is 4 MHz
 
+#define MCK_FREQ 100000
+#define LOAD PA9
+#define DONE PA10
 
 #endif

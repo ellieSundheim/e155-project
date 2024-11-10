@@ -6,6 +6,7 @@
 #include <stm32l432xx.h>
 #include "../lib/STM32L432KC.h"
 
+
 int main(void){
   // config flash
   configureFlash();
@@ -19,20 +20,28 @@ int main(void){
   // SPI clock is in SPI init function
 
   // ADC1_IN10 is the additional function for PA5
-  pinMode(PA5, GPIO_ANALOG);
-  pinMode(PA6, GPIO_ANALOG);
+  pinMode(PA5, GPIO_ANALOG); // player 1
+  pinMode(PA6, GPIO_ANALOG); // player 2
+
+  // Load and done pins
+  pinMode(LOAD, GPIO_OUTPUT); //LOAD
+  pinMode(DONE, GPIO_INPUT); //DONE
+
+  // Artificial chip select signal to allow 8-bit CE-based SPI decoding on the logic analyzers.
+  pinMode(PA11, GPIO_OUTPUT);
+  digitalWrite(PA11, 1);
 
   //init peripherals
   initTIM(TIM15);
-  //initSPI(int br, int cpol, int cpha);
+  initSPI(1, 0, 0);
   initADC();
-  //configureADC();
 
+  float* playerData = (float*)malloc(2 * sizeof(float));
 
-  volatile float adc_ch_5_voltage = 0;
   while(1){
-    adc_ch_5_voltage = readADC();
-    //printf("ADC Input 5: %f\n", adc_ch_5_voltage);
+    readADC(playerData);
+    printf("player 1 %f\n", playerData[0]);
+    printf("player 2 %f\n", playerData[1]);
     printf("----------------------\n");
 
   };
