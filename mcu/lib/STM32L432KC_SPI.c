@@ -75,3 +75,33 @@ char spiSendReceive(char send){
 
 
 };
+
+
+// function to send 24 bits to FPGA
+void sendPlayerData(char* player1, char* player2) {
+  int i;
+
+  // Write LOAD high
+  digitalWrite(LOAD, 1);
+
+  // Send player 1
+  for(i = 0; i < 16; i++) {
+    digitalWrite(PA11, 1); // Arificial CE high
+    spiSendReceive(player1[i]);
+    digitalWrite(PA11, 0); // Arificial CE low
+  }
+
+  // Send player 2
+  for(i = 0; i < 16; i++) {
+    digitalWrite(PA11, 1); // Arificial CE high
+    spiSendReceive(player2[i]);
+    digitalWrite(PA11, 0); // Arificial CE low
+  }
+
+  while(SPI1->SR & SPI_SR_BSY); // Confirm all SPI transactions are completed
+  digitalWrite(LOAD, 0); // Write LOAD low
+
+  // Wait for DONE signal to be asserted by FPGA signifying that the data is ready to be read out.
+  while(!digitalRead(DONE));
+}
+
