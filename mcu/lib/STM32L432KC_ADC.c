@@ -127,6 +127,36 @@ void readADC(float* playerData){
 }
 
 
+void readADCchar(char* playerDataChar){
+  // float is 32 bits so can store our 12 bit max res readings
+
+  // start the conversion
+  ADC1->CR |= ADC_CR_ADSTART;
+
+  // wait for end of first conversion (EOC will be 1, cleared by software or reading ADC->DR)
+  while ( !(ADC1->ISR & ADC_ISR_EOC) );
+
+  // read first channel, clear the EOC bit and allows us to read next channel
+  volatile int ch10 = ADC1->DR;
+
+  // wait to read next
+  while ( !(ADC1->ISR & ADC_ISR_EOC) );
+
+  // read ch6
+  volatile int ch11 = ADC1->DR;
+
+  // clear end of sequence bit
+  ADC1->ISR |= ADC_ISR_EOS;
+
+  // convert each int to 2 chars and store in char array
+  playerDataChar[0] = (char) ch10 >> 8; // upper 8 bits 
+  playerDataChar[1] = (char) ch10 & 0xFF; // lower 8 bits
+  playerDataChar[2] = (char) ch11 >> 8; // upper 8 bits 
+  playerDataChar[3] = (char) ch11 & 0xFF; // lower 8 bits
+
+  //return nothing because pointer modifies in place
+}
+
 void ADC1_IRQnHandler(void){
   
 }
