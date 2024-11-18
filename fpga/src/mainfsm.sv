@@ -66,35 +66,62 @@ module multi(input logic [11:0] p1data,
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
 
     always_ff @(posedge clk)
-        if (reset) state <= 0;
+        if (reset) state <= 7;
         else state <= nextstate;
 
     // nextstate logic
     always_comb
         case (state)
-            0:
-            1:
-            2:
-            3:
-            4:
-            5:
-            6:
-            7: 
-            8:
-            9:
-            10:
-            11:
-            12:
-            13:
-            14:
+            0: nextstate <= 0; // player 2 wins, wait for reset
+            1: if (p1data>p2data) nextstate <= 2;
+                else nextstate <= 0;
+            2: if (p1data>p2data) nextstate <= 3;
+                else nextstate <= 1;
+            3: if (p1data>p2data) nextstate <= 4;
+                else nextstate <= 2;
+            4: if (p1data>p2data) nextstate <= 5;
+                else nextstate <= 3;
+            5: if (p1data>p2data) nextstate <= 6;
+                else nextstate <= 4;
+            6: if (p1data>p2data) nextstate <= 7;
+                else nextstate <= 5;
+            7: if (p1data>p2data) nextstate <= 8; // start
+                else nextstate <= 6;
+            8: if (p1data>p2data) nextstate <= 9;
+                else nextstate <= 7;
+            9: if (p1data>p2data) nextstate <= 10;
+                else nextstate <= 8;
+            10: if (p1data>p2data) nextstate <= 11;
+                else nextstate <= 9;
+            11: if (p1data>p2data) nextstate <= 12;
+                else nextstate <= 10;
+            12: if (p1data>p2data) nextstate <= 13;
+                else nextstate <= 11;
+            13: if (p1data>p2data) nextstate <= 14;
+                else nextstate <= 12;
+            14: nextstate <= 14; // player 1 wins, wait for reset
             default: nextstate <= 0;
         endcase
     
     // output logic
     always_comb
         case (state)
-            0:
-            default:
+            0: screen <= 16;
+            1: screen <= 17;
+            2: screen <= 18;
+            3: screen <= 19;
+            4: screen <= 20;
+            5: screen <= 21;
+            6: screen <= 22;
+            7: screen <= 23;
+            8: screen <= 24;
+            9: screen <= 25;
+            10: screen <= 26;
+            11: screen <= 27;
+            12: screen <= 28;
+            13: screen <= 29;
+            14: screen <= 30;
+            default: screen <= 31;
         endcase
 endmodule
 
