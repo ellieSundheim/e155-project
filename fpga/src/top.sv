@@ -28,7 +28,9 @@ module demo_top(input logic sck,
             single mySingle(p1data, single_screen);
             multi myMulti(p1data, p2data, clk, reset, multi_screen);
             mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
-            demo_display myDisplay (screen, led);
+            //demo_display myDisplay (screen, led);
+			
+			assign led = p1[7:0];
 
 endmodule
 
