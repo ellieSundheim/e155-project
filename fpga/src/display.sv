@@ -31,3 +31,38 @@ module demo_display(input logic [5:0] screen,
     end
 
 endmodule
+
+module demo_display_tb();
+    logic clk;
+    logic [5:0] screen;
+    logic [7:0] led;
+
+    demo_display dut(screen, led);
+
+    // generate clock and load signals
+    always begin
+            clk = 1'b0; #5;
+            clk = 1'b1; #5;
+    end
+
+    initial begin
+        screen = 0; #10;
+        screen = 1; #10;
+        screen = 2; #10;
+        screen = 3; #10;
+        screen = 4; #10;
+        screen = 5; #10;
+        screen = 6; #10;
+        screen = 7; #10;
+        screen = 8; #10;
+        screen = 9; #10;
+        screen = 10; #10;
+        screen = 11; #10;
+        screen = 12; #10;
+        screen = 13; #10;
+        screen = 14; #10;
+        screen = 15; #10;
+    end
+
+
+endmodule
