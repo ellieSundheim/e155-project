@@ -9,7 +9,6 @@ module top(input logic [11:0] p1data,
             input logic clk,
             output logic display ); // tbd signal sent to LED display
     
-    logic
 
     
 
@@ -58,7 +57,7 @@ module single(input logic [11:0] p1data,
 endmodule
 
 module multi(input logic [11:0] p1data,
-            input logic [11:0] p1data,
+            input logic [11:0] p2data,
             input logic clk,
             input logic reset,
             output logic [2:0] screen);
