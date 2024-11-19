@@ -28,5 +28,6 @@
 #define MCK_FREQ 100000
 #define LOAD PA9
 #define DONE PA10
+#define CS PA11
 
 #endif

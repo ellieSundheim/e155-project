@@ -16,5 +16,6 @@ void configureADC(void);
 void initADC(void);
 int calibrateADC(void); 
 void readADC(float*);
+void readADCchar(char*);
 
 #endif

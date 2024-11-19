@@ -36,13 +36,13 @@ int main(void){
   initSPI(1, 0, 0);
   initADC();
 
-  float* playerData = (float*)malloc(2 * sizeof(float));
+  char* playerDataChar = (char*)malloc(4 * sizeof(char));
 
   while(1){
-    readADC(playerData);
-    printf("player 1 %f\n", playerData[0]);
-    printf("player 2 %f\n", playerData[1]);
-    printf("----------------------\n");
+  // TODO: modify so that we read the ADC on a timer update event
+    readADCchar(playerDataChar);
+    
+    sendPlayerData(playerDataChar);
 
   };
 
