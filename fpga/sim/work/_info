@@ -1,0 +1,225 @@
+m255
+K4
+z2
+Z0 !s12c _opt1
+Z1 !s99 nomlopt
+R0
+R1
+R0
+R1
+R0
+R1
+!s12c _opt
+R1
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z2 dC:/Users/danie/OneDrive/Documents/MicroP/Lab2/fpga/sim
+T_opt
+!s110 1731990668
+VDnC5aiI6H5@S47KOiJ=Mk1
+Z3 04 16 4 work testbench_single fast 0
+=1-f09e4a0dfef3-673c148a-3ae-f990
+R1
+Z4 !s12f OEM25U2 
+Z5 !s12b OEM100
+Z6 !s124 OEM100
+Z7 !s135 nogc
+o-quiet -auto_acc_if_foreign -work work
+Z8 tCvgOpt 0
+n@_opt
+Z9 OL;O;2024.2;79
+R2
+T_opt1
+!s110 1731991288
+Vk8aH;CHSAAF4j1RIoORbZ3
+R3
+=6-f09e4a0dfef3-673c16f7-2ce-cad0
+R1
+R4
+R5
+R6
+R7
+o-quiet -auto_acc_if_foreign -work work +acc
+R8
+n@_opt1
+R9
+vaes_spi
+2C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv
+Z10 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+!s110 1731991280
+!i10b 1
+!s100 [KZOM[oUho3N2ONI6VFCV2
+IPMZ03dn4G@d6DFMjagI0J3
+S1
+Z11 dC:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/sim
+w1731276950
+8C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv
+FC:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv
+!i122 31
+L0 9 29
+Z12 VDg1SIo80bB@j0V0VzS_@n1
+Z13 OL;L;2024.2;79
+r1
+!s85 0
+31
+Z14 !s108 1731991279.000000
+!s107 C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv|
+!i113 0
+Z15 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R8
+vdisplayinterface
+2C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv
+R10
+Z16 !s110 1731991279
+!i10b 1
+!s100 ZNU?`0fWeE@N4EDagKFbG2
+IVMCj@0B[WYi2J<1;n7jcX2
+S1
+R11
+w1731990637
+8C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv
+FC:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv
+!i122 29
+L0 55 64
+R12
+R13
+r1
+!s85 0
+31
+R14
+!s107 C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv|
+!i113 0
+R15
+R8
+vmulti
+Z17 2C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
+R10
+R16
+!i10b 1
+!s100 Fg@Ybgc>^ZFHS_5nz`DU31
+IWFbdTcM>@?TRVHT<Y^e181
+S1
+R11
+Z18 w1731990832
+Z19 8C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
+Z20 FC:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
+!i122 28
+L0 59 67
+R12
+R13
+r1
+!s85 0
+31
+Z21 !s108 1731991278.000000
+Z22 !s107 C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv|
+Z23 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv|
+!i113 0
+R15
+R8
+vscreen
+R17
+R10
+R16
+!i10b 1
+!s100 Beel6IUbHEnb>gKXmo1C33
+IDMEVE0HW:8j^A7U[QXdYU3
+S1
+R11
+R18
+R19
+R20
+!i122 28
+L0 127 5
+R12
+R13
+r1
+!s85 0
+31
+R21
+R22
+R23
+!i113 0
+R15
+R8
+vsingle
+R17
+R10
+R16
+!i10b 1
+!s100 n@DlGY@M6]9f:Y7Q45T560
+I<:FSD4=DG9MD@SCjNK0f?3
+S1
+R11
+R18
+R19
+R20
+!i122 28
+L0 18 40
+R12
+R13
+r1
+!s85 0
+31
+R21
+R22
+R23
+!i113 0
+R15
+R8
+vtestbench_single
+2C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/single_tb.sv
+R10
+R16
+!i10b 1
+!s100 WLlXbHI]A7L9[1H>NS;RR0
+IAl7nf`1M<e_2b:=5<G2_e1
+S1
+R11
+w1731991270
+8C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/single_tb.sv
+FC:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/single_tb.sv
+!i122 30
+L0 7 18
+R12
+R13
+r1
+!s85 0
+31
+R14
+!s107 C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/single_tb.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/single_tb.sv|
+!i113 0
+R15
+R8
+vtop
+R17
+R10
+R16
+!i10b 1
+!s100 9CJ1DBUo`5:L2U;;j0DB20
+I0Qg<3VbKlzTQYNjFD5YO]2
+S1
+R11
+R18
+R19
+R20
+!i122 28
+L0 6 11
+R12
+R13
+r1
+!s85 0
+31
+R21
+R22
+R23
+!i113 0
+R15
+R8

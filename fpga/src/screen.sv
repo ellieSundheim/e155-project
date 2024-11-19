@@ -2,7 +2,7 @@
 // dfajardo@g.hmc.edu and esundheim.g.hmc.edu
 // 11/14/2024
 //
-
+/*
 module creatematrix(input logic [4:0] screen,
             input logic clk,
             output logic [15:0] matrix [31:0]);
@@ -46,10 +46,11 @@ module creatematrix(input logic [4:0] screen,
                 13: matrix <= screen13;
                 14: matrix <= screen14;
                 15: matrix <= screen15;
+                default: matrix <= 0;
 
             endcase
 
-endmodule
+endmodule*/
 
 /*
 module displayinterface(input logic [15:0] matrix [31:0],
@@ -60,7 +61,7 @@ module displayinterface(input logic [15:0] matrix [31:0],
         logic [2:0] abcstate, abcnextstate;
         logic [2:0] rgbtop,rgbbot,rgbtopnext,rgbbotnext; 
         logic [5:0] counter;
-        parameter maxcount = 36
+        parameter maxcount = 36;
 
         // state register
         always_ff @(posedge clk) begin
@@ -76,12 +77,14 @@ module displayinterface(input logic [15:0] matrix [31:0],
         assign abcnextstate = (counter==maxcount) ? abcstate+1 : abcstate;
 
         always_comb begin
-            if (counter==0) // light up entire first column green
+            if (counter==0) begin// light up entire first column green
                 rgbtopnext <= 3'b010;
                 rgbbotnext <= 3'b010;
-            else if (counter==31) // light up entire final column green
+            end
+            else if (counter==31) begin// light up entire final column green
                 rgbtopnext <= 3'b010;
                 rgbbotnext <= 3'b010;
+            end
             else if (counter>0 && counter <31) begin
                 if (abcstate==0) begin// light up entire top row green
                     rgbtopnext <= 3'b010;
@@ -102,7 +105,7 @@ module displayinterface(input logic [15:0] matrix [31:0],
             end
             else begin
                 rgbtopnext <= 3'b000;
-                rgbbottnext <= 3'b000;
+                rgbbotnext <= 3'b000;
             end
         end
 

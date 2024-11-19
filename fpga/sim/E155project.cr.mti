@@ -1,0 +1,29 @@
+C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
+Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+-- Compiling module top
+-- Compiling module single
+-- Compiling module multi
+-- Compiling module screen
+
+Top level modules:
+	top
+	single
+	multi
+	screen
+
+} {} {}} C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/spi.sv
+Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+-- Compiling module aes_spi
+
+Top level modules:
+	aes_spi
+
+} {} {}} C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv {2 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv
+Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
+-- Compiling module displayinterface
+** Warning: C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/screen.sv(55): (vlog-13314) Defaulting port 'matrix' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+
+Top level modules:
+	displayinterface
+
+} {} {}}
