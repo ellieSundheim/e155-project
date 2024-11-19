@@ -77,7 +77,7 @@ char spiSendReceive(char send){
 };
 
 
-// function to send 24 bits to FPGA
+// function to send player data to FPGA
 void sendPlayerData(char* playerDataChar) {
   int i;
 

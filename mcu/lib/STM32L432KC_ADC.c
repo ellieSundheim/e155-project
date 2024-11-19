@@ -149,9 +149,9 @@ void readADCchar(char* playerDataChar){
   ADC1->ISR |= ADC_ISR_EOS;
 
   // convert each int to 2 chars and store in char array
-  playerDataChar[0] = (char) ch10 >> 8; // upper 8 bits 
+  playerDataChar[0] = (char) (ch10 >> 8) & 0xFF; // upper 8 bits 
   playerDataChar[1] = (char) ch10 & 0xFF; // lower 8 bits
-  playerDataChar[2] = (char) ch11 >> 8; // upper 8 bits 
+  playerDataChar[2] = (char) (ch11 >> 8) & 0xFF; // upper 8 bits 
   playerDataChar[3] = (char) ch11 & 0xFF; // lower 8 bits
 
   //return nothing because pointer modifies in place

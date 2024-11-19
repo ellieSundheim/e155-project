@@ -1,20 +1,8 @@
 // Daniel Fajardo and Ellie Sundheim
-// dfajardo@g.hmc.edu and esundheim.g.hmc.edu
+// dfajardo@g.hmc.edu and esundheim@g.hmc.edu
 // 11/10/2024
 //
 
-module top(input logic [11:0] p1data,
-            input logic [11:0] p2data,
-            input logic mode,
-            input logic clk,
-            output logic display ); // tbd signal sent to LED display
-    
-    logic
-
-    
-
-
-endmodule
 
 module single(input logic [11:0] p1data,
             output logic [5:0] screen);
@@ -61,7 +49,7 @@ module multi(input logic [11:0] p1data,
             input logic [11:0] p1data,
             input logic clk,
             input logic reset,
-            output logic [2:0] screen);
+            output logic [5:0] screen);
     logic [3:0] state, nextstate;
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
 
