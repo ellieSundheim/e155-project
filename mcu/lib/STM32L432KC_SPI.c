@@ -75,3 +75,26 @@ char spiSendReceive(char send){
 
 
 };
+
+
+// function to send player data to FPGA
+void sendPlayerData(char* playerDataChar) {
+  int i;
+
+  // Write LOAD high
+  digitalWrite(LOAD, 1);
+
+  // Send data in order MSB 1, LSB 1, MSB 2, LSB 2
+  for(i = 0; i < 4; i++) {
+    digitalWrite(CS, 1); // Arificial CE high
+    spiSendReceive(playerDataChar[i]);
+    digitalWrite(CS, 0); // Arificial CE low
+  }
+
+  while(SPI1->SR & SPI_SR_BSY); // Confirm all SPI transactions are completed
+  digitalWrite(LOAD, 0); // Write LOAD low
+
+  // Wait for DONE signal to be asserted by FPGA signifying that the data is ready to be read out.
+  while(!digitalRead(DONE));
+}
+

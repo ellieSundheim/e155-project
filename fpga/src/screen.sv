@@ -52,6 +52,7 @@ module creatematrix(input logic [4:0] screen,
 
 endmodule*/
 
+/*
 module displayinterface(input logic [15:0] matrix [31:0],
             input logic clk,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -116,3 +117,4 @@ module displayinterface(input logic [15:0] matrix [31:0],
 
 
 endmodule
+*/

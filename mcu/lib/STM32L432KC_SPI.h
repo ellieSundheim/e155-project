@@ -31,4 +31,8 @@ char spiSendReceive(char send);
  *    --ds: the size of data packet in bits */
  void changeDS(int ds);
 
+ /* Transmits two players worth of data to the SPI */
+
+ void sendPlayerData(char* playerData);
+
 #endif
