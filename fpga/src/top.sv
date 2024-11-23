@@ -8,15 +8,19 @@ module demo_top(input logic sck,
             output logic sdo,
             input  logic load,
             input logic mode,
+			input logic areset,
             //input logic clk, // comment out for testing on hardware
             output logic [7:0] led
             );
 
             /////////////// internal signals
+			logic [7:0] led_temp;
+			logic reset;
             logic [15:0] p1, p2;
             logic [11:0] p1data, p2data; //12 bit voltages for Daniel's modules
             logic [5:0] single_screen, multi_screen, screen; //inputs to, output from screen mux
 
+			assign reset = ~areset;
             assign p1data = p1[11:0];
             assign p2data = p2[11:0];
 
@@ -25,12 +29,13 @@ module demo_top(input logic sck,
             oscillator myOsc(clk); //uncomment out for testing on hardware
 
             spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2);
-            single mySingle(p1data, single_screen);
-            multi myMulti(p1data, p2data, clk, reset, multi_screen);
-            mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
-            //demo_display myDisplay (screen, led);
+            single mySingle(p2data, single_screen);
+            //multi myMulti(p1data, p2data, clk, reset, multi_screen);
+            //mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
+            //demo_display myDisplay (screen, led_temp);
 			
-			assign led = p1[7:0];
+	
+			assign led = single_screen;
 
 endmodule
 

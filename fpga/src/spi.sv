@@ -30,8 +30,8 @@ endmodule
 
 module spi_receive_only_tb();
 
-   logic [15:0] p1, p2, p1_exp, p2_exp;
-   logic clk, load, done, sck, sdi, sdo;
+    logic [15:0] p1, p2, p1_exp, p2_exp;
+    logic clk, load, sck, sdi, sdo;
     logic [31:0] comb;
     logic [8:0] i;
 
@@ -65,14 +65,14 @@ module spi_receive_only_tb();
 	assign comb = {p1_exp, p2_exp};
     // shift in test vectors, wait until done, and shift out result
     always @(posedge clk) begin
-      if (i == 32) load = 1'b0;
-      if (i<32) begin
+      if (i == 32) begin
+          sck = 1; #5; sck = 0; 
+          load = 1'b0;
+      end
+      else if (i<32) begin
         #1; sdi = comb[32-i];
         #1; sck = 1; #5; sck = 0;
         i = i + 1;
-      end else if (done && delay) begin
-        #100; // Delay to make sure that p1 and p2 are held on output
-        delay = 0;
       end 
     end
     
