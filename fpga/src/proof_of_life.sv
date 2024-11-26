@@ -1,8 +1,15 @@
-module proof_of_life(input logic clk, reset,
+module proof_of_life(//input logic clk, 
+					input logic areset,
                     output logic r1, g1, b1, r2, g2, b2,
                     output logic [2:0] abc,
                     output logic oclk, lat, oe);
-
+					
+		logic reset;
+		assign reset = ~areset;
+		logic clk;
+		oscillator myOSC(clk);
+		
+		
         assign oclk = clk;
         assign r1 = abc[2];
         assign g1 = abc[1];
@@ -12,28 +19,29 @@ module proof_of_life(input logic clk, reset,
         assign b2 = abc[0];
 
 
-        logic [31:0] counter;
+        logic [7:0] counter;
 
         typedef enum logic [4:0] {loadRow, enableRow, error } statetype;
         statetype state, nextstate;
 
         //flops
-        always_ff @(posedge clk)
-        if (reset) begin
-            counter <= 0;
-            state <= loadRow;
-            abc <= 0'b000;
-        end
-        else if (state == enableRow) begin
-            counter <= 0;
-            state <= nextstate;
-            abc <= abc + 1;
-            
-        end
-        else begin
-            counter <= counter + 1;
-            state <= nextstate;
-        end
+        always_ff @(posedge clk) begin
+			if (reset) begin
+				counter <= 0;
+				state <= loadRow;
+				abc <= 3'b110;
+			end
+			else if (state == enableRow) begin
+				counter <= 0;
+				state <= nextstate;
+				abc <= abc + 1;
+				
+			end
+			else begin
+				counter <= counter + 1;
+				state <= nextstate;
+			end
+		end
         
 
         // next state logic
