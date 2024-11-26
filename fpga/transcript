@@ -1,0 +1,36 @@
+# Compile of proof_of_life.sv failed with 7 errors.
+# Compile of proof_of_life.sv failed with 5 errors.
+# Compile of proof_of_life.sv failed with 1 errors.
+# Compile of proof_of_life.sv was successful.
+vsim -gui work.proof_of_life_tb
+# vsim -gui work.proof_of_life_tb 
+# Start time: 16:43:46 on Nov 25,2024
+# Loading sv_std.std
+# Loading work.proof_of_life_tb
+# Loading work.proof_of_life
+add wave -position end  sim:/proof_of_life_tb/clk
+add wave -position end  sim:/proof_of_life_tb/reset
+add wave -position end  sim:/proof_of_life_tb/r1
+add wave -position end  sim:/proof_of_life_tb/g1
+add wave -position end  sim:/proof_of_life_tb/b1
+add wave -position end  sim:/proof_of_life_tb/r2
+add wave -position end  sim:/proof_of_life_tb/g2
+add wave -position end  sim:/proof_of_life_tb/b2
+add wave -position end  sim:/proof_of_life_tb/abc
+add wave -position end  sim:/proof_of_life_tb/oclk
+add wave -position end  sim:/proof_of_life_tb/lat
+
+run 150
+add wave -position end  sim:/proof_of_life_tb/dut/counter
+add wave -position end  sim:/proof_of_life_tb/dut/state
+add wave -position end  sim:/proof_of_life_tb/dut/nextstate
+
+restart -f
+# ** Note: (vsim-12125) Error and warning message counts have been reset to '0' because of 'restart'.
+run 150
+run 1000
+add wave -position 11  sim:/proof_of_life_tb/oe
+
+restart -f
+run 100
+run 1000

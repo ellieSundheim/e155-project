@@ -137,22 +137,22 @@ void readADCchar(char* playerDataChar){
   while ( !(ADC1->ISR & ADC_ISR_EOC) );
 
   // read first channel, clear the EOC bit and allows us to read next channel
-  volatile int ch10 = ADC1->DR;
+  volatile uint16_t ch10 = ADC1->DR;
 
   // wait to read next
   while ( !(ADC1->ISR & ADC_ISR_EOC) );
 
   // read ch6
-  volatile int ch11 = ADC1->DR;
+  volatile uint16_t ch11 = ADC1->DR;
 
   // clear end of sequence bit
   ADC1->ISR |= ADC_ISR_EOS;
 
   // convert each int to 2 chars and store in char array
-  playerDataChar[0] = (char) (ch10 >> 8) & 0xFF; // upper 8 bits 
-  playerDataChar[1] = (char) ch10 & 0xFF; // lower 8 bits
-  playerDataChar[2] = (char) (ch11 >> 8) & 0xFF; // upper 8 bits 
-  playerDataChar[3] = (char) ch11 & 0xFF; // lower 8 bits
+  playerDataChar[0] = (char) ((ch10 >> 8) & 0xFF); // upper 8 bits 
+  playerDataChar[1] = (char) (ch10 & 0xFF); // lower 8 bits
+  playerDataChar[2] = (char) ((ch11 >> 8) & 0xFF); // upper 8 bits 
+  playerDataChar[3] = (char) (ch11 & 0xFF); // lower 8 bits
 
   //return nothing because pointer modifies in place
 }

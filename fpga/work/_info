@@ -1,0 +1,61 @@
+m255
+K4
+z2
+!s11f MIXED_VERSIONS
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/Ellie/Documents/E155/Lab_01_Sundheim/fpga/radiant_project/lab1_es
+vproof_of_life
+Z0 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z1 !s110 1732581817
+!i10b 1
+!s100 EKZ_dU[VGe4m44JY7959<0
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IFR:0bKJ1W]nVdgjcAPUdm1
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+S1
+Z4 dC:/Users/Ellie/Documents/E155/final_project/fpga
+Z5 w1732581809
+Z6 8C:/Users/Ellie/Documents/E155/final_project/fpga/src/proof_of_life.sv
+Z7 FC:/Users/Ellie/Documents/E155/final_project/fpga/src/proof_of_life.sv
+!i122 1
+L0 1 59
+Z8 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z9 !s108 1732581817.000000
+!s107 C:/Users/Ellie/Documents/E155/final_project/fpga/src/proof_of_life.sv|
+Z10 !s90 -reportprogress|300|-work|work|-sv|-stats=none|C:/Users/Ellie/Documents/E155/final_project/fpga/src/proof_of_life.sv|
+!i113 1
+Z11 o-work work -sv
+Z12 tCvgOpt 0
+vproof_of_life_tb
+R0
+R1
+!i10b 1
+!s100 <M:a5Gg>k:V@>k;PZ==a[2
+R2
+I8lNffn5P?ifIP:i0W2[AR2
+R3
+S1
+R4
+R5
+R6
+R7
+!i122 1
+L0 62 22
+R8
+r1
+!s85 0
+31
+R9
+Z13 !s107 C:/Users/Ellie/Documents/E155/final_project/fpga/src/proof_of_life.sv|
+R10
+!i113 1
+R11
+R12

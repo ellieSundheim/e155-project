@@ -95,6 +95,6 @@ void sendPlayerData(char* playerDataChar) {
   digitalWrite(LOAD, 0); // Write LOAD low
 
   // Wait for DONE signal to be asserted by FPGA signifying that the data is ready to be read out.
-  while(!digitalRead(DONE));
+  // FPGA will never assert done so we'll just delay in the main loop
 }
 

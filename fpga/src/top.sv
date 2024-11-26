@@ -40,7 +40,7 @@ module real_top(input  logic sck,
             input logic mode,
             input logic clk, // comment out for testing on hardware
             output logic r1, g1, b1, r1, g2, b2,
-            output logic A, B, C, D,
+            output logic A, B, C,
             output logic LAT, OEN, OCLK
             );
 
