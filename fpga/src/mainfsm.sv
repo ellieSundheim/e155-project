@@ -6,6 +6,7 @@
 
 module single(input logic [11:0] p1data,
             output logic [5:0] screen);
+            
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15; //threshold voltages for display
 
     assign t0 = 12'b000000000000; // 0 decimal
@@ -46,7 +47,7 @@ module single(input logic [11:0] p1data,
 endmodule
 
 module multi(input logic [11:0] p1data,
-            input logic [11:0] p1data,
+            input logic [11:0] p2data,
             input logic clk,
             input logic reset,
             output logic [5:0] screen);
@@ -92,29 +93,25 @@ module multi(input logic [11:0] p1data,
         endcase
     
     // output logic
-    always_comb
-        case (state)
-            0: screen <= 16;
-            1: screen <= 17;
-            2: screen <= 18;
-            3: screen <= 19;
-            4: screen <= 20;
-            5: screen <= 21;
-            6: screen <= 22;
-            7: screen <= 23;
-            8: screen <= 24;
-            9: screen <= 25;
-            10: screen <= 26;
-            11: screen <= 27;
-            12: screen <= 28;
-            13: screen <= 29;
-            14: screen <= 30;
-            default: screen <= 31;
-        endcase
-endmodule
-
-module screen(input logic [4:0] screen,
-            input logic clk,
-            output logic coordinates);
-
+    always_comb 
+		begin
+			case (state)
+				0: screen <= 16;
+				1: screen <= 17;
+				2: screen <= 18;
+				3: screen <= 19;
+				4: screen <= 20;
+				5: screen <= 21;
+				6: screen <= 22;
+				7: screen <= 23;
+				8: screen <= 24;
+				9: screen <= 25;
+				10: screen <= 26;
+				11: screen <= 27;
+				12: screen <= 28;
+				13: screen <= 29;
+				14: screen <= 30;
+				default: screen <= 31;
+			endcase
+		end
 endmodule
