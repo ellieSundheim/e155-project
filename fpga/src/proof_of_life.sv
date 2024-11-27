@@ -6,17 +6,14 @@ module proof_of_life(//input logic clk,
 					
 		logic reset;
 		assign reset = ~areset;
-		logic clk;
-		oscillator myOSC(clk);
+		logic hclk;
+		
+		lsoscillator myOSC(clk);
 		
 		
         assign oclk = clk;
-        assign r1 = abc[2];
-        assign g1 = abc[1];
-        assign b1 = abc[0];
-        assign r2 = abc[2];
-        assign g2 = abc[1];
-        assign b2 = abc[0];
+        assign {r1, g1, b1} = abc;
+        assign {r2, g2, b2} = abc;
 
 
         logic [7:0] counter;

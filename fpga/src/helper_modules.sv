@@ -1,11 +1,22 @@
 // internal oscillator
-module oscillator(output logic clk);
+module hsoscillator(output logic clk);
 
 	logic int_osc;
   
-	// Internal high-speed oscillator (div 2'b00 makes it oscillate at 48Mhz)
+	// Internal high-speed oscillator (div 2'b00 makes it oscillate at 48Mhz, )
 	HSOSC #(.CLKHF_DIV(2'b00)) 
          hf_osc (.CLKHFPU(1'b1), .CLKHFEN(1'b1), .CLKHF(int_osc));
+
+    assign clk = int_osc;
+  
+endmodule
+
+module lsoscillator(output logic clk);
+
+	logic int_osc;
+  
+	// Internal low-speed oscillator oscillates at 10 kHz
+	LSOSC lf_osc (.CLKLFPU(1'b1), .CLKLFEN(1'b1), .CLKLF(int_osc));
 
     assign clk = int_osc;
   
