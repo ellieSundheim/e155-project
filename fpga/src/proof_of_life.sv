@@ -12,7 +12,10 @@ module proof_of_life(//input logic clk,
 		
 		
         assign oclk = clk;
-        assign {r1, g1, b1} = abc;
+        assign r1 = counter[0];
+		assign g1 = counter[4];
+		assign b1 = counter[7];
+	
         assign {r2, g2, b2} = abc;
 
 
@@ -44,8 +47,10 @@ module proof_of_life(//input logic clk,
         // next state logic
         always_comb begin
         case (state)
-            loadRow: if (counter < 32) 	nextstate = loadRow;
+            loadRow: begin
+					if (counter < 32) 	nextstate = loadRow;
                     else 				nextstate = enableRow;
+			end
             enableRow: nextstate = loadRow;
             error: nextstate = error;
             default: nextstate = error;
