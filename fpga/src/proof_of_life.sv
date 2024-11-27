@@ -6,19 +6,9 @@ module proof_of_life(//input logic clk,
 					
 		logic reset;
 		assign reset = ~areset;
-		logic hclk;
 		
 		lsoscillator myOSC(clk);
 		
-		
-        assign oclk = clk;
-        assign r1 = counter[0];
-		assign g1 = counter[4];
-		assign b1 = counter[7];
-	
-        assign {r2, g2, b2} = abc;
-
-
         logic [7:0] counter;
 
         typedef enum logic [4:0] {loadRow, enableRow, error } statetype;
@@ -64,6 +54,12 @@ module proof_of_life(//input logic clk,
          end
 
 
+        assign oclk = clk;
+        assign r1 = counter[0];
+		assign g1 = counter[4];
+		assign b1 = counter[7];
+	
+        assign {r2, g2, b2} = abc;
     
 
 endmodule
