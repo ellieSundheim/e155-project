@@ -44,8 +44,8 @@ module proof_of_life(//input logic clk,
         // next state logic
         always_comb begin
         case (state)
-            loadRow: if (counter < 32) nextstate = state;
-                    else nextstate = enableRow;
+            loadRow: if (counter < 32) 	nextstate = loadRow;
+                    else 				nextstate = enableRow;
             enableRow: nextstate = loadRow;
             error: nextstate = error;
             default: nextstate = error;
