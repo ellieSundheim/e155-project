@@ -1,0 +1,1 @@
+C:/lscc/radiant/2024.1/questasim/win64/VisualizerRls/bin/viscom.exe -nolock -quiet -jmem_size 393216 work.testbench_test(fast) -quiet -auto_acc_if_foreign -work work +acc -allow_unnamed -o _opt2 -id 12-f09e4a0dfef3-67466089-108-4be0 +__design_bin_path+C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/sim +__betafsm

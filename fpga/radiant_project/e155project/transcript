@@ -1,0 +1,155 @@
+# Reading pref.tcl
+# //  Questa Lattice OEM Edition-64
+# //  Version 2024.2 win64 May 20 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading project E155project
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv failed with 1 errors.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 1 failed with 1 error.
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv failed with 1 errors.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 1 failed with 1 error.
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv failed with 1 errors.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 1 failed with 1 error.
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv failed with 1 errors.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 1 failed with 1 error.
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv was successful with warnings.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 0 failed with no errors.
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv failed with 1 errors.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# 7 compiles, 1 failed with 1 error.
+vsim -gui work.testbench_single -voptargs=+acc
+# vsim -gui work.testbench_single -voptargs="+acc" 
+# Start time: 20:17:55 on Nov 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.testbench_single(fast)
+# Loading work.single(fast)
+add wave -position end sim:/testbench_single/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: danie  Hostname: DESKTOP-K6941KM  ProcessID: 51920
+#           Attempting to use alternate WLF file "./wlft56t4t1".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft56t4t1
+run 5000
+# Compile of display.sv was successful.
+# Compile of helper_modules.sv was successful.
+# Compile of mainfsm.sv was successful.
+# Compile of screen.sv was successful with warnings.
+# Compile of single_tb.sv was successful.
+# Compile of spi.sv was successful.
+# Compile of top.sv was successful.
+# Compile of creatematrix_tb.sv was successful.
+# 8 compiles, 0 failed with no errors.
+vsim -gui -voptargs=+acc work.testbench_creatematrix
+# End time: 20:27:36 on Nov 20,2024, Elapsed time: 0:09:41
+# Errors: 0, Warnings: 16
+# vsim -gui -voptargs="+acc" work.testbench_creatematrix 
+# Start time: 20:27:36 on Nov 20,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility. The +acc switch would be deprecated in a future release.
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# Loading sv_std.std
+# Loading work.testbench_creatematrix(fast)
+# Loading work.creatematrix(fast)
+add wave -position end sim:/testbench_creatematrix/dut/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: danie  Hostname: DESKTOP-K6941KM  ProcessID: 51920
+#           Attempting to use alternate WLF file "./wlftcw73fm".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftcw73fm
+run 5000
+# ** Warning: (vsim-7) Failed to open readmem file "screen0" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(14)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen1" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(15)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen2" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(16)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen3" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(17)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen4" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(18)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen5" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(19)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen6" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(20)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen7" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(21)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen8" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(22)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen9" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(23)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen10" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(24)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen11" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(25)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen12" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(26)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen13" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(27)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen14" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(28)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
+# ** Warning: (vsim-7) Failed to open readmem file "screen15" in read mode.
+# No such file or directory. (errno = ENOENT)    : C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/screen.sv(29)
+#    Time: 0 ns  Iteration: 0  Instance: /testbench_creatematrix/dut
