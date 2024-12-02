@@ -3,6 +3,23 @@
 // 11/18/2024
 
 
+module test_top(input logic areset,
+            output logic outclk,
+            output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
+            output logic lat, oe,
+            output logic [2:0] abc); // ABC
+            logic clk,reset;
+
+        assign reset = ~areset;
+
+        oscillator myOsc(clk);
+        //clockdivider clkdivider(reset,clk);
+
+        test test(clk,reset,rgb,lat,oe,abc,outclk);
+        //test test_single_row(clk,reset,rgb,lat,oe,abc,outclk);
+
+endmodule
+/*
 module demo_top(input logic sck, 
             input  logic sdi,
             output logic sdo,
@@ -30,7 +47,7 @@ module demo_top(input logic sck,
             mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
             demo_display myDisplay (screen, led);
 
-endmodule
+endmodule*/
 
 /*
 module real_top(input  logic sck, 
