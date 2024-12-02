@@ -47,12 +47,12 @@ Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
 Top level modules:
 	aes_spi
 
-} {} {}} C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/top.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/top.sv
+} {} {}} C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/clockdivider.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/clockdivider.sv
 Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
--- Compiling module test_top
+-- Compiling module clockdivider
 
 Top level modules:
-	test_top
+	clockdivider
 
 } {} {}} C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/mainfsm.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/mainfsm.sv
 Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024

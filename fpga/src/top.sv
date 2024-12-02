@@ -13,8 +13,10 @@ module test_top(input logic areset,
         assign reset = ~areset;
 
         oscillator myOsc(clk);
+        //clockdivider clkdivider(reset,clk);
 
         test test(clk,reset,rgb,lat,oe,abc,outclk);
+        //test test_single_row(clk,reset,rgb,lat,oe,abc,outclk);
 
 endmodule
 /*

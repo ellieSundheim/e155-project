@@ -54,12 +54,34 @@ module test(input logic clk,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount);
-        assign oe = ~(counter==maxcount);
+        assign lat = (counter==maxcount-4);
+        assign oe = (counter<maxcount-5);
         assign outclk = clk;
 /*        assign lat = (counter==maxcount-2);
         assign oe = (counter==maxcount-1);*/
 endmodule
+
+module test_single_row(input logic clk,
+                       input logic reset,
+                       output logic [5:0] rgb, 
+                       output logic lat, oe, 
+                       output logic [2:0] abc, 
+                       output logic outclk);
+    logic [5:0] counter;
+
+    always_ff @(posedge clk or posedge reset)
+        if (reset)
+            counter <= 0;
+        else
+            counter <= counter + 1;
+
+    assign rgb = (counter < 10) ? 6'b111111 : 6'b000000; // Turn on all colors briefly
+    assign lat = (counter == 10); // Latch row
+    assign oe = ~(counter < 20); // Enable output
+    assign abc = 3'b000;         // Row 0
+    assign outclk = clk;
+endmodule
+
 /*
 module creatematrix(input logic [5:0] screen,
             input logic clk,
