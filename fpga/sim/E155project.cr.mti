@@ -1,15 +1,4 @@
-C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/helper_modules.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/e155-project/fpga/src/helper_modules.sv
-Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
--- Compiling module oscillator
--- Compiling module mux2
--- Compiling module flopenr
-
-Top level modules:
-	oscillator
-	mux2
-	flopenr
-
-} {} {}} C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
+C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv {1 {vlog -work work -vopt -sv -stats=none C:/Users/danie/OneDrive/Documents/MicroP/Project/e155-project/fpga/src/mainfsm.sv
 Questa Lattice OEM Edition-64 vlog 2024.2 Compiler 2024.05 May 20 2024
 -- Compiling module top
 -- Compiling module single

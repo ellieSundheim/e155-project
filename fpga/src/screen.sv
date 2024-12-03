@@ -42,9 +42,13 @@ module test(input logic clk,
         assign abcnextstate = (counter==maxcount) ? abcstate+1 : abcstate;
 
         always_comb
-            if (counter>=0 && counter <=30) begin
+            if (counter>0 && counter <=30) begin
                 rgbtopnext <= 3'b010;
                 rgbbotnext <= 3'b010;
+            end
+            else if (counter==0) begin
+                rgbtopnext <= 3'b100;
+                rgbbotnext <= 3'b100;
             end
             else if (counter==31) begin
                 rgbtopnext <= 3'b100;
@@ -58,11 +62,9 @@ module test(input logic clk,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-3);
-        assign oe = (counter<maxcount-4);
+        assign lat = (counter==maxcount-4);
+        assign oe = (counter<maxcount-2);
         assign outclk = clk;
-/*        assign lat = (counter==maxcount-2);
-        assign oe = (counter==maxcount-1);*/
 endmodule
 
 module test_single_row(input logic clk,
@@ -136,7 +138,7 @@ module creatematrix(input logic [5:0] screen,
 
 endmodule*/
 
-/*
+
 module displayinterface(input logic [5:0] screen,
             input logic clk,
             input logic reset,
@@ -154,8 +156,9 @@ module displayinterface(input logic [5:0] screen,
             if (reset) begin
                 counter <= 0;
                 abcstate <= 0;
-                barrier[5:1] <= screen[4:0]; // screen will be 0-15 and so barrier should be double that
-                barrier[0] <= 1'b0;
+                barrier[4:0] <= screen[4:0];
+                //barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
+                barrier[0] <= 1'b1;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
@@ -187,7 +190,7 @@ module displayinterface(input logic [5:0] screen,
                 rgbtopnext <= 3'b010;
                 rgbbotnext <= 3'b010;
             end
-            else if (counter>0 && counter <31) begin
+            else if (counter>0 && counter<31) begin
                 if (abcstate==0) begin// light up entire top row green
                     rgbtopnext <= 3'b010;
                     rgbbotnext[2] <= (counter<barrier); // set pixel in matrix to red
@@ -224,19 +227,19 @@ module displayinterface(input logic [5:0] screen,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-2);
-        assign oe = (counter==maxcount-1);
+        assign lat = (counter==maxcount-4);
+        assign oe = (counter<maxcount-2);
         assign outclk = clk;
-
-
 endmodule
+
 
 module multidisplayinterface(input logic [5:0] screen,
             input logic clk,
             input logic reset,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
             output logic lat, oe,
-            output logic [2:0] abc); // ABC
+            output logic [2:0] abc,
+            output logic outclk); // ABC
         logic [2:0] abcstate, abcnextstate;
         logic [2:0] rgbtop,rgbbot,rgbtopnext,rgbbotnext; 
         logic [5:0] counter, barrier;
@@ -279,7 +282,7 @@ module multidisplayinterface(input logic [5:0] screen,
                 rgbtopnext <= 3'b010;
                 rgbbotnext <= 3'b010;
             end
-            else if (counter>1 && counter<30) begin
+            else if (counter>0 && counter<31) begin
                 if (abcstate==0) begin // light up entire top row green
                     rgbtopnext <= 3'b010;
                     rgbbotnext[2] <= (counter<=barrier); // set player 1 red
@@ -289,7 +292,7 @@ module multidisplayinterface(input logic [5:0] screen,
                 else if (abcstate==7) begin // light up entire bottom row green
                     rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                     rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (cointer>barrier); // set player 2 blue
+                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                     rgbbotnext <= 3'b010;
                 end
                 else if (abcstate==1) begin
@@ -301,13 +304,13 @@ module multidisplayinterface(input logic [5:0] screen,
                 else if (abcstate==6) begin
                     rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                     rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (cointer>barrier); // set player 2 blue
+                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                     rgbbotnext <= 3'b000; // keep buffer row 0
                 end
                 else begin
                     rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                     rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (cointer>barrier); // set player 2 blue
+                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                     rgbbotnext[2] <= (counter<=barrier); // set player 1 red
                     rgbbotnext[1] <= 1'b0;
                     rgbbotnext[0] <= (counter>barrier); // set player 2 blue
@@ -322,6 +325,7 @@ module multidisplayinterface(input logic [5:0] screen,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-2);
-        assign oe = (counter==maxcount-1);
-endmodule*/
+        assign lat = (counter==maxcount-4);
+        assign oe = (counter<maxcount-2);
+        assign outclk = clk;
+endmodule

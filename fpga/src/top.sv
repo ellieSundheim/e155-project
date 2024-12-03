@@ -2,7 +2,7 @@
 // dfajardo@g.hmc.edu and esundheim@g.hmc.edu
 // 11/18/2024
 
-
+/*
 module test_top(input logic areset,
             output logic outclk,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -11,23 +11,32 @@ module test_top(input logic areset,
             logic clk,reset;
 
         assign reset = ~areset;
+        assign screen = 6'b100001;
 
         oscillator myOsc(clk);
         //clockdivider clkdivider(reset,clk);
 
-        test test(clk,reset,rgb,lat,oe,abc,outclk);
+        // test test(clk,reset,rgb,lat,oe,abc,outclk);
         //test test_single_row(clk,reset,rgb,lat,oe,abc,outclk);
+        //displayinterface testdisplay(screen,clk,reset,rgb,lat,oe,abc,outclk);
+        multidisplayinterface multidisplay(screen,clk,reset,rgb,lat,oe,abc,outclk);
+        
 
-endmodule
-/*
+endmodule*/
+
 module demo_top(input logic sck, 
             input  logic sdi,
+            input logic areset,
             output logic sdo,
             input  logic load,
-            input logic mode,
+            //input logic mode,
             //input logic clk, // comment out for testing on hardware
-            output logic [7:0] led
+            output logic outclk,
+            output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
+            output logic lat, oe,
+            output logic [2:0] abc // ABC
             );
+            logic clk, reset;
 
             /////////////// internal signals
             logic [15:0] p1, p2;
@@ -36,18 +45,19 @@ module demo_top(input logic sck,
 
             assign p1data = p1[11:0];
             assign p2data = p2[11:0];
+            assign reset = ~areset;
 
             //////////////// modules
 
             oscillator myOsc(clk); //uncomment out for testing on hardware
 
             spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2);
-            single mySingle(p1data, single_screen);
-            multi myMulti(p1data, p2data, clk, reset, multi_screen);
-            mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
-            demo_display myDisplay (screen, led);
-
-endmodule*/
+            single mySingle(p2data, single_screen);
+            //multi myMulti(p1data, p2data, clk, reset, multi_screen);
+            //mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
+            //demo_display myDisplay (screen, led);
+            displayinterface testdisplay(single_screen,clk,reset,rgb,lat,oe,abc,outclk);
+endmodule
 
 /*
 module real_top(input  logic sck, 
