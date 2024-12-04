@@ -232,12 +232,16 @@ module multidisplay(input logic [5:0] screen,
         logic [2:0] abcstate, abcnextstate;
         logic [2:0] rgbtop,rgbbot,rgbtopnext,rgbbotnext; 
         logic [5:0] counter, barrier;
-        logic [31:0] p1wins [15:0], p2wins [15:0];
-        logic [19:0] div;// flashes winning screen every 1.43 Hz
+        logic [31:0] p1wins [15:0], p2wins [15:0], one [15:0], two [15:0], three [15:0], go [15:0];
+        logic [20:0] div; // to reduce output frequencies
         parameter maxcount = 36;
 
         initial $readmemb("p1wins.txt",p1wins);
         initial $readmemb("p2wins.txt",p2wins);
+        initial $readmemb("1.txt",one);
+        initial $readmemb("2.txt",two);
+        initial $readmemb("3.txt",three);
+        initial $readmemb("go.txt",go);
 
         // state register
         always_ff @(posedge clk,posedge reset)
@@ -275,14 +279,7 @@ module multidisplay(input logic [5:0] screen,
         // nextstate logic
         assign abcnextstate = (counter==maxcount) ? abcstate+1 : abcstate;
         always_comb begin
-            // if (screen==31) begin
-                
-            
-            // end
-
-
-
-            else if (screen>16 && screen<30) begin
+            if (screen>16 && screen<30) begin
                 if (counter==0) begin // light up entire first column green
                     rgbtopnext <= 3'b010;
                     rgbbotnext <= 3'b010;
@@ -330,17 +327,41 @@ module multidisplay(input logic [5:0] screen,
                     rgbbotnext <= 3'b000;
                 end
             end
-            else if (screen==16) begin // alternates flashing top and bottom text at 1.43Hz
-                rgbtopnext[2] <= (p1wins[abcstate][counter])&(div[19]);
+            else if (screen==16) begin // alternates flashing top and bottom text at 0.72Hz
+                rgbtopnext[2] <= (p1wins[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (p1wins[(abcstate+8)][counter])&(~div[19]);
+                rgbbotnext[2] <= (p1wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[1:0] <= 2'b00;
             end
-            else if (screen==30) begin
-                rgbtopnext[0] <= (p2wins[abcstate][counter])&(div[19]);
+            else if (screen==30) begin // alternates flashing top and bottom text at 0.72Hz
+                rgbtopnext[0] <= (p2wins[abcstate][31-counter])&(div[20]);
                 rgbtopnext[2:1] <= 2'b00;
-                rgbbotnext[0] <= (p2wins[(abcstate+8)][counter])&(~div[19]);
+                rgbbotnext[0] <= (p2wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[2:1] <= 2'b00;
+            end
+            else if (screen==31) begin
+                rgbtopnext[2] <= (go[abcstate][31-counter]); // text matrices are inverted until counter is inverted
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (go[(abcstate+8)][31-counter]);
+                rgbbotnext[1:0] <= 2'b00;
+            end
+            else if (screen==32) begin
+                rgbtopnext[2] <= (one[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (one[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[1:0] <= 2'b00;
+            end
+            else if (screen==33) begin
+                rgbtopnext[2] <= (two[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (two[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[1:0] <= 2'b00;
+            end
+            else if (screen==34) begin
+                rgbtopnext[2] <= (three[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (three[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[1:0] <= 2'b00;
             end
             else begin
                 rgbtopnext <= 3'b000;

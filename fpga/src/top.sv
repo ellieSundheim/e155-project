@@ -48,20 +48,21 @@ module demo_top(input logic sck,
             assign p1data = p1[11:0];
             assign p2data = p2[11:0];
             assign reset = ~areset;
-            assign screen = 6'b010000;
+            assign screen = 6'b100010; // hard code for testing
 
             //////////////// modules
 
             oscillator myOsc(clk); //uncomment out for testing on hardware
 
-            spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2);
-            single mySingle(p2data, single_screen);
+            spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2); // read adc values from mcu
+            single mySingle(p1data, single_screen); //
             multi myMulti(p1data, p2data, clk, reset, multi_screen);
             //mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
             //demo_display myDisplay (screen, led);
             singledisplay singledisplay(single_screen,clk,reset,srgb,slat,soe,sabc,soutclk);
             multidisplay multidisplay(multi_screen,clk,reset,mrgb,mlat,moe,mabc,moutclk);
 
+            // outputs multiplexed depending on if in single or multi player mode
             assign rgb = mode ? mrgb : srgb;
             assign lat = mode ? mlat : slat;
             assign oe = mode ? moe : soe;

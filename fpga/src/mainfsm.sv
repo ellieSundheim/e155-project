@@ -54,10 +54,17 @@ module multi(input logic [11:0] p1data,
             output logic [5:0] screen);
     logic [3:0] state, nextstate;
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
+    logic [22:0] div;
 
     always_ff @(posedge clk)
-        if (reset) state <= 7;
-        else state <= nextstate;
+        if (reset) begin 
+            state <= 18;
+            div <= 0;
+        end
+        else begin
+            state <= nextstate;
+            div <= div + 1;
+        end
 
     // nextstate logic
     always_comb
@@ -90,29 +97,41 @@ module multi(input logic [11:0] p1data,
             13: if (p1data>p2data) nextstate <= 14;
                 else nextstate <= 12;
             14: nextstate <= 14; // player 1 wins, wait for reset
-            default: nextstate <= 7;
+            15: if (div[22]) nextstate <= 7; // go to start
+                else nextstate <= 15;
+            16: if (div[22]) nextstate <= 15;
+                else nextstate <= 16;
+            17: if (div[22]) nextstate <= 16;
+                else nextstate <= 17;
+            18: if (div[22]) nextstate <= 17; // start count down
+                else nextstate <= 18;
+            default: nextstate <= 18;
         endcase
     
     // output logic
     always_comb 
 		begin
 			case (state)
-				0: screen <= 16;
+				0: screen <= 16; // p1 wins
 				1: screen <= 17;
 				2: screen <= 18;
 				3: screen <= 19;
 				4: screen <= 20;
 				5: screen <= 21;
 				6: screen <= 22;
-				7: screen <= 23;
+				7: screen <= 23; // start
 				8: screen <= 24;
 				9: screen <= 25;
 				10: screen <= 26;
 				11: screen <= 27;
 				12: screen <= 28;
 				13: screen <= 29;
-				14: screen <= 30;
-				default: screen <= 31;
+				14: screen <= 30; // p2 wins
+                15: screen <= 31; // go
+                16: screen <= 32; // 1
+                17: screen <= 33; // 2
+                18: screen <= 34; // 3
+				default: screen <= 23;
 			endcase
 		end
 endmodule
