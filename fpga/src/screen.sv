@@ -3,6 +3,7 @@
 // 11/14/2024
 //
 /*
+// test module to manually output rows and columns
 module test(input logic clk,
             input logic reset,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -74,57 +75,7 @@ module test(input logic clk,
 endmodule*/
 
 
-/*
-module creatematrix(input logic [5:0] screen,
-            input logic clk,
-            output logic [31:0] matrix [15:0]);
-        logic [31:0] screen0 [15:0],screen1 [15:0],screen2 [15:0],screen3 [15:0],
-                    screen4 [15:0],screen5 [15:0],screen6 [15:0],screen7 [15:0],
-                    screen8 [15:0],screen9 [15:0],screen10 [15:0],screen11 [15:0],
-                    screen12 [15:0],screen13 [15:0],screen14 [15:0],screen15 [15:0];
-        
-        initial $readmemb("screen0",screen0);
-        initial $readmemb("screen1",screen1);
-        initial $readmemb("screen2",screen2);
-        initial $readmemb("screen3",screen3);
-        initial $readmemb("screen4",screen4);
-        initial $readmemb("screen5",screen5);
-        initial $readmemb("screen6",screen6);
-        initial $readmemb("screen7",screen7);
-        initial $readmemb("screen8",screen8);
-        initial $readmemb("screen9",screen9);
-        initial $readmemb("screen10",screen10);
-        initial $readmemb("screen11",screen11);
-        initial $readmemb("screen12",screen12);
-        initial $readmemb("screen13",screen13);
-        initial $readmemb("screen14",screen14);
-        initial $readmemb("screen15",screen15);
-
-        always_comb
-            case (screen)
-                0: matrix <= screen0;
-                1: matrix <= screen1;
-                2: matrix <= screen2;
-                3: matrix <= screen3;
-                4: matrix <= screen4;
-                5: matrix <= screen5;
-                6: matrix <= screen6;
-                7: matrix <= screen7;
-                8: matrix <= screen8;
-                9: matrix <= screen9;
-                10: matrix <= screen10;
-                11: matrix <= screen11;
-                12: matrix <= screen12;
-                13: matrix <= screen13;
-                14: matrix <= screen14;
-                15: matrix <= screen15;
-                default: matrix <= '{default: 0};
-
-            endcase
-
-endmodule*/
-
-
+// module for display interface in single player mode
 module singledisplay(input logic [5:0] screen,
             input logic clk,
             input logic reset,
@@ -143,7 +94,7 @@ module singledisplay(input logic [5:0] screen,
                 counter <= 0;
                 abcstate <= 0;
                 barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
-                barrier[0] <= 1'b1;
+                barrier[0] <= 1'b0;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
@@ -221,7 +172,7 @@ module singledisplay(input logic [5:0] screen,
         assign outclk = clk;
 endmodule
 
-
+// module for display interface in multiplayer mode
 module multidisplay(input logic [5:0] screen,
             input logic clk,
             input logic reset,
@@ -236,12 +187,13 @@ module multidisplay(input logic [5:0] screen,
         logic [20:0] div; // to reduce output frequencies
         parameter maxcount = 36;
 
-        initial $readmemb("p1wins.txt",p1wins);
-        initial $readmemb("p2wins.txt",p2wins);
-        initial $readmemb("1.txt",one);
-        initial $readmemb("2.txt",two);
-        initial $readmemb("3.txt",three);
-        initial $readmemb("go.txt",go);
+        // read text files to memory for preset screens
+        initial $readmemb("p1wins.txt",p1wins); // win screen for p1
+        initial $readmemb("p2wins.txt",p2wins); // win screen for p2
+        initial $readmemb("1.txt",one); // start screen "1"
+        initial $readmemb("2.txt",two); // start screen "2"
+        initial $readmemb("3.txt",three); // start screen "3"
+        initial $readmemb("go.txt",go); // start screen "go"
 
         // state register
         always_ff @(posedge clk,posedge reset)
@@ -249,21 +201,21 @@ module multidisplay(input logic [5:0] screen,
                 counter <= 0;
                 div <= 0;
                 abcstate <= 0;
-                barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
+                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b0;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
                 div <= div +1;
                 abcstate <= abcnextstate;
-                barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
+                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b0;
             end
             else begin
                 counter <= counter +1;
                 div <= div +1;
                 abcstate <= abcnextstate;
-                barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
+                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b0;
             end
         always_ff @(negedge clk,posedge reset)
@@ -327,37 +279,37 @@ module multidisplay(input logic [5:0] screen,
                     rgbbotnext <= 3'b000;
                 end
             end
-            else if (screen==16) begin // alternates flashing top and bottom text at 0.72Hz
+            else if (screen==16) begin // alternates flashing p1 win screen top and bottom text at 0.72Hz
                 rgbtopnext[2] <= (p1wins[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (p1wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[1:0] <= 2'b00;
             end
-            else if (screen==30) begin // alternates flashing top and bottom text at 0.72Hz
+            else if (screen==30) begin // alternates flashing p2 win screen top and bottom text at 0.72Hz
                 rgbtopnext[0] <= (p2wins[abcstate][31-counter])&(div[20]);
                 rgbtopnext[2:1] <= 2'b00;
                 rgbbotnext[0] <= (p2wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[2:1] <= 2'b00;
             end
-            else if (screen==31) begin
+            else if (screen==31) begin // display "go"
                 rgbtopnext[2] <= (go[abcstate][31-counter]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (go[(abcstate+8)][31-counter]);
                 rgbbotnext[1:0] <= 2'b00;
             end
-            else if (screen==32) begin
+            else if (screen==32) begin // display "1"
                 rgbtopnext[2] <= (one[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (one[(abcstate+8)][31-counter])&(div[20]);
                 rgbbotnext[1:0] <= 2'b00;
             end
-            else if (screen==33) begin
+            else if (screen==33) begin // display "2"
                 rgbtopnext[2] <= (two[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (two[(abcstate+8)][31-counter])&(div[20]);
                 rgbbotnext[1:0] <= 2'b00;
             end
-            else if (screen==34) begin
+            else if (screen==34) begin // display "3"
                 rgbtopnext[2] <= (three[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (three[(abcstate+8)][31-counter])&(div[20]);

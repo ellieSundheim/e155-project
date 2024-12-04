@@ -3,7 +3,7 @@
 // 11/10/2024
 //
 
-
+// asynchronous module for determining which screen to output in single player mode based on voltage level
 module single(input logic [11:0] p1data,
             output logic [5:0] screen);
             
@@ -27,7 +27,7 @@ module single(input logic [11:0] p1data,
     assign t15 = 12'b110100110011; // 3.30
     
     always_comb begin
-        if ((p1data>t0)&&(p1data<t1)) screen <= 0;
+        if ((p1data>t0)&&(p1data<t1)) screen <= 0; // empty
         else if ((p1data>t1)&&(p1data<t2)) screen <= 1;
         else if ((p1data>t2)&&(p1data<t3)) screen <= 2;
         else if ((p1data>t3)&&(p1data<t4)) screen <= 3;
@@ -42,11 +42,12 @@ module single(input logic [11:0] p1data,
         else if ((p1data>t12)&&(p1data<t13)) screen <= 12;
         else if ((p1data>t13)&&(p1data<t14)) screen <= 13;
         else if ((p1data>t14)&&(p1data<t15)) screen <= 14;
-        else if (p1data>t15) screen <= 15;
+        else if (p1data>t15) screen <= 15; // fully lit
         else screen <= 0;
     end
 endmodule
 
+// synchronous module to determine screen output based on which player has a greater voltage signal
 module multi(input logic [11:0] p1data,
             input logic [11:0] p2data,
             input logic clk,
@@ -56,14 +57,22 @@ module multi(input logic [11:0] p1data,
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     logic [22:0] div;
 
-    always_ff @(posedge clk)
-        if (reset) begin 
-            state <= 18;
+    // increases div on every clock cycle
+    always_ff @(posedge clk, posedge reset)
+        if (reset) begin
             div <= 0;
         end
         else begin
-            state <= nextstate;
             div <= div + 1;
+        end
+
+    // updates state on every msb in div
+    always_ff @(posedge div[22], posedge reset)
+        if (reset) begin 
+            state <= 18;
+        end
+        else begin
+            state <= nextstate;
         end
 
     // nextstate logic
@@ -97,14 +106,10 @@ module multi(input logic [11:0] p1data,
             13: if (p1data>p2data) nextstate <= 14;
                 else nextstate <= 12;
             14: nextstate <= 14; // player 1 wins, wait for reset
-            15: if (div[22]) nextstate <= 7; // go to start
-                else nextstate <= 15;
-            16: if (div[22]) nextstate <= 15;
-                else nextstate <= 16;
-            17: if (div[22]) nextstate <= 16;
-                else nextstate <= 17;
-            18: if (div[22]) nextstate <= 17; // start count down
-                else nextstate <= 18;
+            15: nextstate <= 7; // go to start
+            16: nextstate <= 15;
+            17: nextstate <= 16;
+            18: nextstate <= 17; // start count down
             default: nextstate <= 18;
         endcase
     
