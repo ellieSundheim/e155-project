@@ -55,7 +55,7 @@ module demo_top(input logic sck,
             oscillator myOsc(clk); //uncomment out for testing on hardware
 
             spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2); // read adc values from mcu
-            single mySingle(p1data, single_screen); // determine which single player screen to display
+            single mySingle(p2data, single_screen); // determine which single player screen to display
             multi myMulti(p1data, p2data, clk, reset, multi_screen); // determine which multiplayer screen to display
             //demo_display myDisplay (screen, led);
             singledisplay singledisplay(single_screen,clk,reset,srgb,slat,soe,sabc,soutclk); // interface for led display for single player mode

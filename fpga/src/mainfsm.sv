@@ -53,7 +53,7 @@ module multi(input logic [11:0] p1data,
             input logic clk,
             input logic reset,
             output logic [5:0] screen);
-    logic [3:0] state, nextstate;
+    logic [5:0] state, nextstate;
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
     logic [22:0] div;
 
@@ -67,7 +67,7 @@ module multi(input logic [11:0] p1data,
         end
 
     // updates state on every msb in div
-    always_ff @(posedge div[22], posedge reset)
+    always_ff @(posedge div[21], posedge reset)
         if (reset) begin 
             state <= 18;
         end
@@ -136,7 +136,7 @@ module multi(input logic [11:0] p1data,
                 16: screen <= 32; // 1
                 17: screen <= 33; // 2
                 18: screen <= 34; // 3
-				default: screen <= 23;
+				default: screen <= 34;
 			endcase
 		end
 endmodule

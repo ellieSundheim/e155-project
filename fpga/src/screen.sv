@@ -201,22 +201,22 @@ module multidisplay(input logic [5:0] screen,
                 counter <= 0;
                 div <= 0;
                 abcstate <= 0;
-                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
-                barrier[0] <= 1'b0;
+                barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
+                barrier[0] <= 1'b1;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
                 div <= div +1;
                 abcstate <= abcnextstate;
-                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
-                barrier[0] <= 1'b0;
+                barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
+                barrier[0] <= 1'b1;
             end
             else begin
                 counter <= counter +1;
                 div <= div +1;
                 abcstate <= abcnextstate;
-                barrier[5:1] <= screen[4:0]; // screen will be 17-29 and so barrier should be 2(x-16)
-                barrier[0] <= 1'b0;
+                barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
+                barrier[0] <= 1'b1;
             end
         always_ff @(negedge clk,posedge reset)
             if (reset) begin
@@ -243,35 +243,35 @@ module multidisplay(input logic [5:0] screen,
                 else if (counter>0 && counter<31) begin
                     if (abcstate==0) begin // light up entire top row green
                         rgbtopnext <= 3'b010;
-                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbbotnext[2] <= (counter<=barrier); // set player 1 red
                         rgbbotnext[1] <= 1'b0;
-                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext[0] <= (counter>barrier); // set player 2 blue
                     end
                     else if (abcstate==7) begin // light up entire bottom row green
-                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                         rgbtopnext[1] <= 1'b0;
-                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                         rgbbotnext <= 3'b010;
                     end
                     else if (abcstate==1) begin
                         rgbtopnext <= 3'b000; // keep buffer row 0
-                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbbotnext[2] <= (counter<=barrier); // set player 1 red
                         rgbbotnext[1] <= 1'b0;
-                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext[0] <= (counter>barrier); // set player 2 blue
                     end
                     else if (abcstate==6) begin
-                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                         rgbtopnext[1] <= 1'b0;
-                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                         rgbbotnext <= 3'b000; // keep buffer row 0
                     end
                     else begin
-                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[2] <= (counter<=barrier); // set player 1 red
                         rgbtopnext[1] <= 1'b0;
-                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
-                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[0] <= (counter>barrier); // set player 2 blue
+                        rgbbotnext[2] <= (counter<=barrier); // set player 1 red
                         rgbbotnext[1] <= 1'b0;
-                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext[0] <= (counter>barrier); // set player 2 blue
                     end
                 end
                 else begin
@@ -279,17 +279,17 @@ module multidisplay(input logic [5:0] screen,
                     rgbbotnext <= 3'b000;
                 end
             end
-            else if (screen==16) begin // alternates flashing p1 win screen top and bottom text at 0.72Hz
-                rgbtopnext[2] <= (p1wins[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
-                rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (p1wins[(abcstate+8)][31-counter])&(~div[20]);
-                rgbbotnext[1:0] <= 2'b00;
-            end
-            else if (screen==30) begin // alternates flashing p2 win screen top and bottom text at 0.72Hz
-                rgbtopnext[0] <= (p2wins[abcstate][31-counter])&(div[20]);
+            else if (screen==16) begin // alternates flashing p2 win screen top and bottom text at 0.72Hz
+                rgbtopnext[0] <= (p2wins[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[2:1] <= 2'b00;
                 rgbbotnext[0] <= (p2wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[2:1] <= 2'b00;
+            end
+            else if (screen==30) begin // alternates flashing p1 win screen top and bottom text at 0.72Hz
+                rgbtopnext[2] <= (p1wins[abcstate][31-counter])&(div[20]);
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (p1wins[(abcstate+8)][31-counter])&(~div[20]);
+                rgbbotnext[1:0] <= 2'b00;
             end
             else if (screen==31) begin // display "go"
                 rgbtopnext[2] <= (go[abcstate][31-counter]); // text matrices are inverted until counter is inverted
@@ -298,21 +298,21 @@ module multidisplay(input logic [5:0] screen,
                 rgbbotnext[1:0] <= 2'b00;
             end
             else if (screen==32) begin // display "1"
-                rgbtopnext[2] <= (one[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[2] <= (one[abcstate][31-counter]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (one[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[2] <= (one[(abcstate+8)][31-counter]);
                 rgbbotnext[1:0] <= 2'b00;
             end
             else if (screen==33) begin // display "2"
-                rgbtopnext[2] <= (two[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[2] <= (two[abcstate][31-counter]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (two[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[2] <= (two[(abcstate+8)][31-counter]);
                 rgbbotnext[1:0] <= 2'b00;
             end
             else if (screen==34) begin // display "3"
-                rgbtopnext[2] <= (three[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
+                rgbtopnext[2] <= (three[abcstate][31-counter]); // text matrices are inverted until counter is inverted
                 rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (three[(abcstate+8)][31-counter])&(div[20]);
+                rgbbotnext[2] <= (three[(abcstate+8)][31-counter]);
                 rgbbotnext[1:0] <= 2'b00;
             end
             else begin
