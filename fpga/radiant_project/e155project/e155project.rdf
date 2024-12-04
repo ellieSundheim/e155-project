@@ -19,7 +19,7 @@
             <Options VerilogStandard="System Verilog"/>
         </Source>
         <Source name="../../src/top.sv" type="Verilog" type_short="Verilog">
-            <Options VerilogStandard="System Verilog"/>
+            <Options VerilogStandard="System Verilog" top_module="demo_top"/>
         </Source>
         <Source name="../../src/clockdivider.sv" type="Verilog" type_short="Verilog">
             <Options VerilogStandard="System Verilog"/>

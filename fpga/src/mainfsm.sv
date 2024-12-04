@@ -42,7 +42,8 @@ module single(input logic [11:0] p1data,
         else if ((p1data>t12)&&(p1data<t13)) screen <= 12;
         else if ((p1data>t13)&&(p1data<t14)) screen <= 13;
         else if ((p1data>t14)&&(p1data<t15)) screen <= 14;
-        else screen <= 15;
+        else if (p1data>t15) screen <= 15;
+        else screen <= 0;
     end
 endmodule
 
@@ -89,7 +90,7 @@ module multi(input logic [11:0] p1data,
             13: if (p1data>p2data) nextstate <= 14;
                 else nextstate <= 12;
             14: nextstate <= 14; // player 1 wins, wait for reset
-            default: nextstate <= 0;
+            default: nextstate <= 7;
         endcase
     
     // output logic

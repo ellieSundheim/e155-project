@@ -2,8 +2,8 @@
 // dfajardo@g.hmc.edu and esundheim@g.hmc.edu
 // 11/18/2024
 
-/*
-module test_top(input logic areset,
+
+/*module test_top(input logic areset,
             output logic outclk,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
             output logic lat, oe,
@@ -16,10 +16,9 @@ module test_top(input logic areset,
         oscillator myOsc(clk);
         //clockdivider clkdivider(reset,clk);
 
-        // test test(clk,reset,rgb,lat,oe,abc,outclk);
-        //test test_single_row(clk,reset,rgb,lat,oe,abc,outclk);
+        test test(clk,reset,rgb,lat,oe,abc,outclk);
         //displayinterface testdisplay(screen,clk,reset,rgb,lat,oe,abc,outclk);
-        multidisplayinterface multidisplay(screen,clk,reset,rgb,lat,oe,abc,outclk);
+        //multidisplayinterface multidisplay(screen,clk,reset,rgb,lat,oe,abc,outclk);
         
 
 endmodule*/
@@ -29,7 +28,7 @@ module demo_top(input logic sck,
             input logic areset,
             output logic sdo,
             input  logic load,
-            //input logic mode,
+            input logic mode,
             //input logic clk, // comment out for testing on hardware
             output logic outclk,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -37,6 +36,9 @@ module demo_top(input logic sck,
             output logic [2:0] abc // ABC
             );
             logic clk, reset;
+            logic [5:0] mrgb, srgb;
+            logic mlat, moe, moutclk, slat, soe, soutclk;
+            logic [2:0] mabc, sabc;
 
             /////////////// internal signals
             logic [15:0] p1, p2;
@@ -46,6 +48,7 @@ module demo_top(input logic sck,
             assign p1data = p1[11:0];
             assign p2data = p2[11:0];
             assign reset = ~areset;
+            assign screen = 6'b010000;
 
             //////////////// modules
 
@@ -53,10 +56,17 @@ module demo_top(input logic sck,
 
             spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2);
             single mySingle(p2data, single_screen);
-            //multi myMulti(p1data, p2data, clk, reset, multi_screen);
+            multi myMulti(p1data, p2data, clk, reset, multi_screen);
             //mux2 #(6) screenMux(mode, single_screen, multi_screen, screen);
             //demo_display myDisplay (screen, led);
-            displayinterface testdisplay(single_screen,clk,reset,rgb,lat,oe,abc,outclk);
+            singledisplay singledisplay(single_screen,clk,reset,srgb,slat,soe,sabc,soutclk);
+            multidisplay multidisplay(multi_screen,clk,reset,mrgb,mlat,moe,mabc,moutclk);
+
+            assign rgb = mode ? mrgb : srgb;
+            assign lat = mode ? mlat : slat;
+            assign oe = mode ? moe : soe;
+            assign abc = mode ? mabc : sabc;
+            assign outclk = mode ? moutclk : soutclk;
 endmodule
 
 /*

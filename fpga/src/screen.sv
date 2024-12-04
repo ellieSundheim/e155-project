@@ -2,7 +2,7 @@
 // dfajardo@g.hmc.edu and esundheim.g.hmc.edu
 // 11/14/2024
 //
-
+/*
 module test(input logic clk,
             input logic reset,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -43,8 +43,14 @@ module test(input logic clk,
 
         always_comb
             if (counter>0 && counter <=30) begin
-                rgbtopnext <= 3'b010;
-                rgbbotnext <= 3'b010;
+                if (abcstate==7) begin
+                    rgbtopnext <= 3'b001;
+                    rgbbotnext <= 3'b001;
+                end
+                else begin
+                    rgbtopnext <= 3'b010;
+                    rgbbotnext <= 3'b010;
+                end
             end
             else if (counter==0) begin
                 rgbtopnext <= 3'b100;
@@ -62,31 +68,11 @@ module test(input logic clk,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-4);
-        assign oe = (counter<maxcount-2);
+        assign lat = (counter==maxcount-5);
+        assign oe = (counter<maxcount-1);
         assign outclk = clk;
-endmodule
+endmodule*/
 
-module test_single_row(input logic clk,
-                       input logic reset,
-                       output logic [5:0] rgb, 
-                       output logic lat, oe, 
-                       output logic [2:0] abc, 
-                       output logic outclk);
-    logic [5:0] counter;
-
-    always_ff @(posedge clk or posedge reset)
-        if (reset)
-            counter <= 0;
-        else
-            counter <= counter + 1;
-
-    assign rgb = (counter < 10) ? 6'b111111 : 6'b000000; // Turn on all colors briefly
-    assign lat = (counter == 10); // Latch row
-    assign oe = ~(counter < 20); // Enable output
-    assign abc = 3'b000;         // Row 0
-    assign outclk = clk;
-endmodule
 
 /*
 module creatematrix(input logic [5:0] screen,
@@ -139,7 +125,7 @@ module creatematrix(input logic [5:0] screen,
 endmodule*/
 
 
-module displayinterface(input logic [5:0] screen,
+module singledisplay(input logic [5:0] screen,
             input logic clk,
             input logic reset,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -156,17 +142,20 @@ module displayinterface(input logic [5:0] screen,
             if (reset) begin
                 counter <= 0;
                 abcstate <= 0;
-                barrier[4:0] <= screen[4:0];
-                //barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
+                barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
                 barrier[0] <= 1'b1;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
                 abcstate <= abcnextstate;
+                barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
+                barrier[0] <= 1'b0;
             end
             else begin
                 counter <= counter +1;
                 abcstate <= abcnextstate;
+                barrier[5:1] <= screen[4:0]; // screen will be 0-14 and so barrier should be double that
+                barrier[0] <= 1'b0;
             end
         always_ff @(negedge clk,posedge reset)
             if (reset) begin
@@ -193,28 +182,28 @@ module displayinterface(input logic [5:0] screen,
             else if (counter>0 && counter<31) begin
                 if (abcstate==0) begin// light up entire top row green
                     rgbtopnext <= 3'b010;
-                    rgbbotnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbbotnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbbotnext[1:0] <= 2'b00;
                 end
                 else if (abcstate==7) begin // light up entire bottom row green
-                    rgbtopnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbtopnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbtopnext[1:0] <= 2'b00;
                     rgbbotnext <= 3'b010;
                 end
                 else if (abcstate==1) begin
                     rgbtopnext <= 3'b000; // keep buffer row 0
-                    rgbbotnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbbotnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbbotnext[1:0] <= 2'b00;
                 end
                 else if (abcstate==6) begin
-                    rgbtopnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbtopnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbtopnext[1:0] <= 2'b00;
                     rgbbotnext <= 3'b000; // keep buffer row 0
                 end
                 else begin
-                    rgbtopnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbtopnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbtopnext[1:0] <= 2'b00;
-                    rgbbotnext[2] <= (counter<barrier); // set pixel in matrix to red
+                    rgbbotnext[2] <= (counter<=barrier); // set pixel in matrix to red
                     rgbbotnext[1:0] <= 2'b00;
                 end
             end
@@ -227,13 +216,13 @@ module displayinterface(input logic [5:0] screen,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-4);
-        assign oe = (counter<maxcount-2);
+        assign lat = (counter==maxcount-5);
+        assign oe = (counter<maxcount-1);
         assign outclk = clk;
 endmodule
 
 
-module multidisplayinterface(input logic [5:0] screen,
+module multidisplay(input logic [5:0] screen,
             input logic clk,
             input logic reset,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -243,23 +232,35 @@ module multidisplayinterface(input logic [5:0] screen,
         logic [2:0] abcstate, abcnextstate;
         logic [2:0] rgbtop,rgbbot,rgbtopnext,rgbbotnext; 
         logic [5:0] counter, barrier;
+        logic [31:0] p1wins [15:0], p2wins [15:0];
+        logic [19:0] div;// flashes winning screen every 1.43 Hz
         parameter maxcount = 36;
+
+        initial $readmemb("p1wins.txt",p1wins);
+        initial $readmemb("p2wins.txt",p2wins);
 
         // state register
         always_ff @(posedge clk,posedge reset)
             if (reset) begin
                 counter <= 0;
+                div <= 0;
                 abcstate <= 0;
                 barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b0;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
+                div <= div +1;
                 abcstate <= abcnextstate;
+                barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
+                barrier[0] <= 1'b0;
             end
             else begin
                 counter <= counter +1;
+                div <= div +1;
                 abcstate <= abcnextstate;
+                barrier[5:1] <= screen[4:0]; // screen will be 16-31 and so barrier should be 2(x-16)
+                barrier[0] <= 1'b0;
             end
         always_ff @(negedge clk,posedge reset)
             if (reset) begin
@@ -274,47 +275,72 @@ module multidisplayinterface(input logic [5:0] screen,
         // nextstate logic
         assign abcnextstate = (counter==maxcount) ? abcstate+1 : abcstate;
         always_comb begin
-            if (counter==0) begin // light up entire first column green
-                rgbtopnext <= 3'b010;
-                rgbbotnext <= 3'b010;
-            end
-            else if (counter==31) begin // light up entire final column green
-                rgbtopnext <= 3'b010;
-                rgbbotnext <= 3'b010;
-            end
-            else if (counter>0 && counter<31) begin
-                if (abcstate==0) begin // light up entire top row green
+            // if (screen==31) begin
+                
+            
+            // end
+
+
+
+            else if (screen>16 && screen<30) begin
+                if (counter==0) begin // light up entire first column green
                     rgbtopnext <= 3'b010;
-                    rgbbotnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbbotnext[1] <= 1'b0;
-                    rgbbotnext[0] <= (counter>barrier); // set player 2 blue
-                end
-                else if (abcstate==7) begin // light up entire bottom row green
-                    rgbtopnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
                     rgbbotnext <= 3'b010;
                 end
-                else if (abcstate==1) begin
-                    rgbtopnext <= 3'b000; // keep buffer row 0
-                    rgbbotnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbbotnext[1] <= 1'b0;
-                    rgbbotnext[0] <= (counter>barrier); // set player 2 blue
+                else if (counter==31) begin // light up entire final column green
+                    rgbtopnext <= 3'b010;
+                    rgbbotnext <= 3'b010;
                 end
-                else if (abcstate==6) begin
-                    rgbtopnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
-                    rgbbotnext <= 3'b000; // keep buffer row 0
+                else if (counter>0 && counter<31) begin
+                    if (abcstate==0) begin // light up entire top row green
+                        rgbtopnext <= 3'b010;
+                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbbotnext[1] <= 1'b0;
+                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                    end
+                    else if (abcstate==7) begin // light up entire bottom row green
+                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[1] <= 1'b0;
+                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext <= 3'b010;
+                    end
+                    else if (abcstate==1) begin
+                        rgbtopnext <= 3'b000; // keep buffer row 0
+                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbbotnext[1] <= 1'b0;
+                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                    end
+                    else if (abcstate==6) begin
+                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[1] <= 1'b0;
+                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext <= 3'b000; // keep buffer row 0
+                    end
+                    else begin
+                        rgbtopnext[2] <= (counter<barrier); // set player 1 red
+                        rgbtopnext[1] <= 1'b0;
+                        rgbtopnext[0] <= (counter>=barrier); // set player 2 blue
+                        rgbbotnext[2] <= (counter<barrier); // set player 1 red
+                        rgbbotnext[1] <= 1'b0;
+                        rgbbotnext[0] <= (counter>=barrier); // set player 2 blue
+                    end
                 end
                 else begin
-                    rgbtopnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbtopnext[1] <= 1'b0;
-                    rgbtopnext[0] <= (counter>barrier); // set player 2 blue
-                    rgbbotnext[2] <= (counter<=barrier); // set player 1 red
-                    rgbbotnext[1] <= 1'b0;
-                    rgbbotnext[0] <= (counter>barrier); // set player 2 blue
+                    rgbtopnext <= 3'b000;
+                    rgbbotnext <= 3'b000;
                 end
+            end
+            else if (screen==16) begin // alternates flashing top and bottom text at 1.43Hz
+                rgbtopnext[2] <= (p1wins[abcstate][counter])&(div[19]);
+                rgbtopnext[1:0] <= 2'b00;
+                rgbbotnext[2] <= (p1wins[(abcstate+8)][counter])&(~div[19]);
+                rgbbotnext[1:0] <= 2'b00;
+            end
+            else if (screen==30) begin
+                rgbtopnext[0] <= (p2wins[abcstate][counter])&(div[19]);
+                rgbtopnext[2:1] <= 2'b00;
+                rgbbotnext[0] <= (p2wins[(abcstate+8)][counter])&(~div[19]);
+                rgbbotnext[2:1] <= 2'b00;
             end
             else begin
                 rgbtopnext <= 3'b000;
@@ -325,7 +351,7 @@ module multidisplayinterface(input logic [5:0] screen,
         // output logic
         assign abc = abcstate;
         assign rgb = {rgbtop,rgbbot};
-        assign lat = (counter==maxcount-4);
-        assign oe = (counter<maxcount-2);
+        assign lat = (counter==maxcount-5);
+        assign oe = (counter<maxcount-1);
         assign outclk = clk;
 endmodule
