@@ -203,6 +203,7 @@ module multidisplay(input logic [5:0] screen,
                 abcstate <= 0;
                 barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b1;
+                barrier[5] <= 1'b0;
             end
             else if (counter==maxcount) begin
                 counter <= 0;
@@ -210,6 +211,7 @@ module multidisplay(input logic [5:0] screen,
                 abcstate <= abcnextstate;
                 barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b1;
+                barrier[5] <= 1'b0;
             end
             else begin
                 counter <= counter +1;
@@ -217,6 +219,7 @@ module multidisplay(input logic [5:0] screen,
                 abcstate <= abcnextstate;
                 barrier[4:1] <= screen[3:0]; // screen will be 17-29 and so barrier should be 2(x-16)
                 barrier[0] <= 1'b1;
+                barrier[5] <= 1'b0;
             end
         always_ff @(negedge clk,posedge reset)
             if (reset) begin
@@ -231,7 +234,7 @@ module multidisplay(input logic [5:0] screen,
         // nextstate logic
         assign abcnextstate = (counter==maxcount) ? abcstate+1 : abcstate;
         always_comb begin
-            if (screen>16 && screen<30) begin
+            if (screen>=16 && screen<=30) begin
                 if (counter==0) begin // light up entire first column green
                     rgbtopnext <= 3'b010;
                     rgbbotnext <= 3'b010;
@@ -279,13 +282,13 @@ module multidisplay(input logic [5:0] screen,
                     rgbbotnext <= 3'b000;
                 end
             end
-            else if (screen==16) begin // alternates flashing p2 win screen top and bottom text at 0.72Hz
+            else if (screen==35) begin // alternates flashing p2 win screen top and bottom text at 0.72Hz
                 rgbtopnext[0] <= (p2wins[abcstate][31-counter])&(div[20]); // text matrices are inverted until counter is inverted
                 rgbtopnext[2:1] <= 2'b00;
                 rgbbotnext[0] <= (p2wins[(abcstate+8)][31-counter])&(~div[20]);
                 rgbbotnext[2:1] <= 2'b00;
             end
-            else if (screen==30) begin // alternates flashing p1 win screen top and bottom text at 0.72Hz
+            else if (screen==36) begin // alternates flashing p1 win screen top and bottom text at 0.72Hz
                 rgbtopnext[2] <= (p1wins[abcstate][31-counter])&(div[20]);
                 rgbtopnext[1:0] <= 2'b00;
                 rgbbotnext[2] <= (p1wins[(abcstate+8)][31-counter])&(~div[20]);

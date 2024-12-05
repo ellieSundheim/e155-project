@@ -55,7 +55,7 @@ module multi(input logic [11:0] p1data,
             output logic [5:0] screen);
     logic [5:0] state, nextstate;
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
-    logic [22:0] div;
+    logic [20:0] div;
 
     // increases div on every clock cycle
     always_ff @(posedge clk, posedge reset)
@@ -78,7 +78,8 @@ module multi(input logic [11:0] p1data,
     // nextstate logic
     always_comb
         case (state)
-            0: nextstate <= 0; // player 2 wins, wait for reset
+            0: if (p1data>p2data) nextstate <= 1; // full bar p2
+                else nextstate <= 19;
             1: if (p1data>p2data) nextstate <= 2;
                 else nextstate <= 0;
             2: if (p1data>p2data) nextstate <= 3;
@@ -105,11 +106,14 @@ module multi(input logic [11:0] p1data,
                 else nextstate <= 11;
             13: if (p1data>p2data) nextstate <= 14;
                 else nextstate <= 12;
-            14: nextstate <= 14; // player 1 wins, wait for reset
+            14: if (p1data>p2data) nextstate <= 20; // full bar p1
+                else nextstate <= 13;
             15: nextstate <= 7; // go to start
             16: nextstate <= 15;
             17: nextstate <= 16;
             18: nextstate <= 17; // start count down
+            19: nextstate <= 19; // player 2 wins, wait for reset
+            20: nextstate <= 20; // player 1 wins, wait for reset
             default: nextstate <= 18;
         endcase
     
@@ -117,7 +121,7 @@ module multi(input logic [11:0] p1data,
     always_comb 
 		begin
 			case (state)
-				0: screen <= 16; // p1 wins
+				0: screen <= 16; // full bar p2
 				1: screen <= 17;
 				2: screen <= 18;
 				3: screen <= 19;
@@ -131,11 +135,13 @@ module multi(input logic [11:0] p1data,
 				11: screen <= 27;
 				12: screen <= 28;
 				13: screen <= 29;
-				14: screen <= 30; // p2 wins
+				14: screen <= 30; // full bar p1
                 15: screen <= 31; // go
                 16: screen <= 32; // 1
                 17: screen <= 33; // 2
                 18: screen <= 34; // 3
+                19: screen <= 35; // p2 wins
+                20: screen <= 36; // p1 wins
 				default: screen <= 34;
 			endcase
 		end

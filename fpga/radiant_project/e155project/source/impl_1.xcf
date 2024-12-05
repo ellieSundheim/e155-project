@@ -18,7 +18,7 @@
 				<BScanVal>0</BScanVal>
 			</Bypass>
 			<File>../../impl_1/e155project_impl_1.bin</File>
-			<FileTime>12/04/24 16:41:41</FileTime>
+			<FileTime>12/05/24 11:03:38</FileTime>
 			<MemoryType>External SPI Flash Memory (SPI FLASH)</MemoryType>
 			<Operation>Erase,Program,Verify</Operation>
 			<Option>
