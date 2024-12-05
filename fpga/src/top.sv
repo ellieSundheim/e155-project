@@ -29,6 +29,7 @@ module demo_top(input logic sck,
             output logic sdo,
             input  logic load,
             input logic mode,
+            input logic pen,
             //input logic clk, // comment out for testing on hardware
             output logic outclk,
             output logic [5:0] rgb, // R1,G1,B1,R2,G2,B2
@@ -42,20 +43,21 @@ module demo_top(input logic sck,
 
             /////////////// internal signals
             logic [15:0] p1, p2;
-            logic [11:0] p1data, p2data; //12 bit voltages
+            logic [11:0] p1data, p2data, pdata; //12 bit voltages
             logic [5:0] single_screen, multi_screen, screen; //inputs to, output from screen mux
 
             assign p1data = p1[11:0]; // truncate only last 12 bits
             assign p2data = p2[11:0]; // truncate only last 12 bits
             assign reset = ~areset;
             assign screen = 6'b100010; // hard code for testing
+            assign pdata = pen ? p1data : p2data;
 
             //////////////// modules
 
             oscillator myOsc(clk); //uncomment out for testing on hardware
 
             spi_receive_only mySPI(sck, sdi, sdo, load, p1, p2); // read adc values from mcu
-            single mySingle(p2data, single_screen); // determine which single player screen to display
+            single mySingle(pdata, single_screen); // determine which single player screen to display
             multi myMulti(p1data, p2data, clk, reset, multi_screen); // determine which multiplayer screen to display
             //demo_display myDisplay (screen, led);
             singledisplay singledisplay(single_screen,clk,reset,srgb,slat,soe,sabc,soutclk); // interface for led display for single player mode

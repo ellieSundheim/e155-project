@@ -292,10 +292,12 @@ module multidisplay(input logic [5:0] screen,
                 rgbbotnext[1:0] <= 2'b00;
             end
             else if (screen==31) begin // display "go"
-                rgbtopnext[2] <= (go[abcstate][31-counter]); // text matrices are inverted until counter is inverted
-                rgbtopnext[1:0] <= 2'b00;
-                rgbbotnext[2] <= (go[(abcstate+8)][31-counter]);
-                rgbbotnext[1:0] <= 2'b00;
+                rgbtopnext[2] <= 2'b00;
+                rgbtopnext[1] <= (go[abcstate][31-counter]); // text matrices are inverted until counter is inverted
+                rgbtopnext[0] <= 2'b00;
+                rgbbotnext[2] <= 2'b00;
+                rgbbotnext[1] <= (go[(abcstate+8)][31-counter]);
+                rgbbotnext[0] <= 2'b00;
             end
             else if (screen==32) begin // display "1"
                 rgbtopnext[2] <= (one[abcstate][31-counter]); // text matrices are inverted until counter is inverted

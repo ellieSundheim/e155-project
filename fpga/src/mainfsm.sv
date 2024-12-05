@@ -67,7 +67,7 @@ module multi(input logic [11:0] p1data,
         end
 
     // updates state on every msb in div
-    always_ff @(posedge div[21], posedge reset)
+    always_ff @(posedge div[20], posedge reset)
         if (reset) begin 
             state <= 18;
         end
