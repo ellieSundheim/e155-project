@@ -3,7 +3,7 @@
 // 11/10/2024
 //
 
-
+// asynchronous module for determining which screen to output in single player mode based on voltage level
 module single(input logic [11:0] p1data,
             output logic [5:0] screen);
             
@@ -27,7 +27,7 @@ module single(input logic [11:0] p1data,
     assign t15 = 12'b110100110011; // 3.30
     
     always_comb begin
-        if ((p1data>t0)&&(p1data<t1)) screen <= 0;
+        if ((p1data>t0)&&(p1data<t1)) screen <= 0; // empty
         else if ((p1data>t1)&&(p1data<t2)) screen <= 1;
         else if ((p1data>t2)&&(p1data<t3)) screen <= 2;
         else if ((p1data>t3)&&(p1data<t4)) screen <= 3;
@@ -42,26 +42,44 @@ module single(input logic [11:0] p1data,
         else if ((p1data>t12)&&(p1data<t13)) screen <= 12;
         else if ((p1data>t13)&&(p1data<t14)) screen <= 13;
         else if ((p1data>t14)&&(p1data<t15)) screen <= 14;
-        else screen <= 15;
+        else if (p1data>t15) screen <= 15; // fully lit
+        else screen <= 0;
     end
 endmodule
 
+// synchronous module to determine screen output based on which player has a greater voltage signal
 module multi(input logic [11:0] p1data,
             input logic [11:0] p2data,
             input logic clk,
             input logic reset,
             output logic [5:0] screen);
-    logic [3:0] state, nextstate;
+    logic [5:0] state, nextstate;
     logic [11:0] t0,t1,t2,t3,t4,t5,t6,t7,t8,t9,t10,t11,t12,t13,t14,t15;
+    logic [20:0] div;
 
-    always_ff @(posedge clk)
-        if (reset) state <= 7;
-        else state <= nextstate;
+    // increases div on every clock cycle
+    always_ff @(posedge clk, posedge reset)
+        if (reset) begin
+            div <= 0;
+        end
+        else begin
+            div <= div + 1;
+        end
+
+    // updates state on every msb in div
+    always_ff @(posedge div[20], posedge reset)
+        if (reset) begin 
+            state <= 18;
+        end
+        else begin
+            state <= nextstate;
+        end
 
     // nextstate logic
     always_comb
         case (state)
-            0: nextstate <= 0; // player 2 wins, wait for reset
+            0: if (p1data>p2data) nextstate <= 1; // full bar p2
+                else nextstate <= 19;
             1: if (p1data>p2data) nextstate <= 2;
                 else nextstate <= 0;
             2: if (p1data>p2data) nextstate <= 3;
@@ -88,30 +106,43 @@ module multi(input logic [11:0] p1data,
                 else nextstate <= 11;
             13: if (p1data>p2data) nextstate <= 14;
                 else nextstate <= 12;
-            14: nextstate <= 14; // player 1 wins, wait for reset
-            default: nextstate <= 0;
+            14: if (p1data>p2data) nextstate <= 20; // full bar p1
+                else nextstate <= 13;
+            15: nextstate <= 7; // go to start
+            16: nextstate <= 15;
+            17: nextstate <= 16;
+            18: nextstate <= 17; // start count down
+            19: nextstate <= 19; // player 2 wins, wait for reset
+            20: nextstate <= 20; // player 1 wins, wait for reset
+            default: nextstate <= 18;
         endcase
     
     // output logic
     always_comb 
 		begin
 			case (state)
-				0: screen <= 16;
+				0: screen <= 16; // full bar p2
 				1: screen <= 17;
 				2: screen <= 18;
 				3: screen <= 19;
 				4: screen <= 20;
 				5: screen <= 21;
 				6: screen <= 22;
-				7: screen <= 23;
+				7: screen <= 23; // start
 				8: screen <= 24;
 				9: screen <= 25;
 				10: screen <= 26;
 				11: screen <= 27;
 				12: screen <= 28;
 				13: screen <= 29;
-				14: screen <= 30;
-				default: screen <= 31;
+				14: screen <= 30; // full bar p1
+                15: screen <= 31; // go
+                16: screen <= 32; // 1
+                17: screen <= 33; // 2
+                18: screen <= 34; // 3
+                19: screen <= 35; // p2 wins
+                20: screen <= 36; // p1 wins
+				default: screen <= 34;
 			endcase
 		end
 endmodule

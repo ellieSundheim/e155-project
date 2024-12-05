@@ -22,3 +22,31 @@ module testbench_single();
     end
 
 endmodule
+
+
+module testbench_singledisplay();
+    logic [5:0] screen;
+    logic clk, reset;
+    logic [5:0] rgb;
+    logic oe, lat;
+    logic [2:0] abc;
+    logic outclk;
+
+    singledisplay dut(screen,clk,reset,rgb,lat,oe,abc,outclk);
+
+    initial begin 
+        reset <= 0; #5;
+        reset <= 1; #5;
+        reset <= 0; #5;
+    end
+
+    always begin
+        clk <= 0; #5;
+        clk <= 1; #5;
+    end
+
+    initial begin
+        screen <= 3; #50;
+    end
+
+endmodule
