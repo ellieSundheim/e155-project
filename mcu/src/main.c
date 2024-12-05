@@ -50,17 +50,19 @@ int main(void){
   initSPI(4, 0, 0);
   initADC();
 
+  // arrays for functions to modify
+ 
   char* playerDataChar = (char*)malloc(4 * sizeof(char));
 
+  // clean up incoming data
+  calculateOffsets();
+
   while(1){
-  // TODO: modify so that we read the ADC on a timer update event
+
     readADCchar(playerDataChar);
-    
-    //digitalWrite(CS, 0);
-    //spiSendReceive((char) 0x65);
-    //digitalWrite(CS, 1);
 
     sendPlayerData(playerDataChar);
+
     delay_millis(TIM15, 1000);
 
   };

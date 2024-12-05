@@ -10,6 +10,7 @@ void configurePLL() {
    // M:, N:, P:
    // Use HSI as PLLSRC
 
+
    RCC->CR &= ~_FLD2VAL(RCC_CR_PLLON, RCC->CR); // Turn off PLL
    while (_FLD2VAL(RCC_CR_PLLRDY, 1) != 0); // Wait till PLL is unlocked (e.g., off)
 

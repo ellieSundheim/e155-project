@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stm32l432xx.h>
 
+
 ///////////////////////////////////////////////////////////////////////////////
 // Function prototypes
 ///////////////////////////////////////////////////////////////////////////////
@@ -17,5 +18,6 @@ void initADC(void);
 int calibrateADC(void); 
 void readADC(float*);
 void readADCchar(char*);
+void calculateOffsets(void);
 
 #endif

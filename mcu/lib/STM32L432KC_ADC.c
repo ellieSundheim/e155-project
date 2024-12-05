@@ -8,14 +8,18 @@
 #include "STM32L432KC_TIM.h"
 #include "STM32L432KC_GPIO.h"
 
+float dcOffsets[2] = {0,0};
+
 void initADC(void){
   
   // set up clocks
-  RCC->CCIPR |= _VAL2FLD(RCC_CCIPR_ADCSEL, 0b11);
+  RCC->CCIPR |= _VAL2FLD(RCC_CCIPR_ADCSEL, 0b11); //11 -> system clock is selected as ADC clock
   RCC->CFGR &= ~(RCC_CFGR_HPRE); // must use AHB prescaler = 1
   
-  // select ADC clock and prescale by setting CKMODE to 01
-  ADC1_COMMON->CCR |= _VAL2FLD(ADC_CCR_CKMODE, 0b01);
+  // select ADC clock and prescale
+  // CKMODE to 0b00 -> ADC uses system clock of 80 MHz
+  ADC1_COMMON->CCR |= _VAL2FLD(ADC_CCR_CKMODE, 0b00);
+  ADC1_COMMON->CCR | _VAL2FLD(ADC_CCR_PRESC, 4); //divides by 2^value
 
 
   // calibrate ADC
@@ -44,12 +48,14 @@ void initADC(void){
   ADC1->SQR1 |= _VAL2FLD(ADC_SQR1_SQ1, 10); // set to read channel 10 (PA5)
   ADC1->SQR1 |= _VAL2FLD(ADC_SQR1_SQ2, 11); // set to read channel 11 (PA6)
 
+  // sample channels for 24.5 ADC clock cycles
+  // slow channels need 0.2 microseconds to read -> 
+  // at systemclock freq of 16 MHz, a clock cycle is 0.06 microseconds 
+  // which is 3.2 clock cycles
+  ADC1->SMPR2 |= _VAL2FLD(ADC_SMPR2_SMP10, 3);
+  ADC1->SMPR2 |= _VAL2FLD(ADC_SMPR2_SMP11, 3);
 
-  //ADC1->SQR1 |= 0b1010 << 6; // first one is input 10
-  //ADC1->SQR1 |= 0b110 << 12; // second one is input 6
-
-  // TODO: interrupt enables
-
+  // interrupts
 
   // clear ready bit by writing 1
   ADC1->ISR |= (ADC_ISR_ADRDY);
@@ -127,6 +133,22 @@ void readADC(float* playerData){
 }
 
 
+void calculateOffsets(void){
+  // read for 20 cycles
+  float ch10offset = 0;
+  float ch11offset = 0;
+
+  for (int i = 0; i <20; i++){
+      readADC(dcOffsets);
+      ch10offset += dcOffsets[0];
+      ch11offset += dcOffsets[1];
+  }
+
+  // set offset as 20 cycle average
+  dcOffsets[0] = ch10offset/10.0;
+  dcOffsets[1] = ch11offset/20.0;
+}
+
 void readADCchar(char* playerDataChar){
   // float is 32 bits so can store our 12 bit max res readings
 
@@ -135,6 +157,8 @@ void readADCchar(char* playerDataChar){
 
   // wait for end of first conversion (EOC will be 1, cleared by software or reading ADC->DR)
   while ( !(ADC1->ISR & ADC_ISR_EOC) );
+
+
 
   // read first channel, clear the EOC bit and allows us to read next channel
   volatile uint16_t ch10 = ADC1->DR;
@@ -148,11 +172,19 @@ void readADCchar(char* playerDataChar){
   // clear end of sequence bit
   ADC1->ISR |= ADC_ISR_EOS;
 
+  // adjust raw values by subtracting offsets
+  //ch10 -= dcOffsets[0];
+  //ch11 -= dcOffsets[1];
+
   // convert each int to 2 chars and store in char array
   playerDataChar[0] = (char) ((ch10 >> 8) & 0xFF); // upper 8 bits 
   playerDataChar[1] = (char) (ch10 & 0xFF); // lower 8 bits
   playerDataChar[2] = (char) ((ch11 >> 8) & 0xFF); // upper 8 bits 
   playerDataChar[3] = (char) (ch11 & 0xFF); // lower 8 bits
+  
+  //printf("p2 upper: %d\n", playerDataChar[2]);
+  //printf("p2 lower: %d\n", playerDataChar[3]);
+
 
   //return nothing because pointer modifies in place
 }
@@ -160,3 +192,4 @@ void readADCchar(char* playerDataChar){
 void ADC1_IRQnHandler(void){
   
 }
+
